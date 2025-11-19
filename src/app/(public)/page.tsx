@@ -1,10 +1,9 @@
-import { Button } from '@/components/ui/button'
+import { Header } from './_components/header'
 
 export default function Home() {
   return (
-    <main>
-      <div className="font-bold font-calsans text-6xl">Hero Public</div>
-      <Button className="text-2xl">Entrar</Button>
+    <main className="min-h-screen w-full">
+      <Header />
     </main>
   )
 }

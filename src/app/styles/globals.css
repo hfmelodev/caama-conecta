@@ -128,3 +128,21 @@
     @apply cursor-pointer;
   }
 }
+
+/* Configuracões de animações personalizadas */
+@layer utilities {
+  @keyframes wave {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(20deg); }
+    40% { transform: rotate(-15deg); }
+    60% { transform: rotate(10deg); }
+    80% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .animate-wave {
+    animation: wave 3s infinite ease-in-out;
+    transform-origin: 70% 70%;
+  }
+}
+

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
-  "vcs": {
+	"$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+	"vcs": {
 		"enabled": false,
 		"clientKind": "git",
 		"useIgnoreFile": false
@@ -19,6 +19,9 @@
 		"rules": {
 			"complexity": "off",
 			"recommended": true,
+			"correctness": {
+				"useUniqueElementIds": "off"
+			},
 			"suspicious": {
 				"noShadowRestrictedNames": "off",
 				"noExplicitAny": "off",

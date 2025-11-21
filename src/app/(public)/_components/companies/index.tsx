@@ -19,7 +19,7 @@ export function Companies() {
           <p className="text-center text-muted">Escolha a subseção ou sede para visualizar as empresas conveniadas</p>
         </div>
 
-        <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <AnimatedCard key={index}>
               <Link href="/company/sao-luis">

@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaFacebookSquare, FaWhatsapp, FaYoutube } from 'react-icons/fa'
-import { GrLinkedin } from 'react-icons/gr'
 import { SiInstagram } from 'react-icons/si'
 
 export function Footer() {

@@ -9,7 +9,7 @@ export function Header() {
       <div className="container mx-auto p-4">
         <div className="flex items-center justify-between">
           <Link href="/">
-            <Image src="/assets/logo-caama-azul.png" alt="Logo" width={180} height={50} quality={100} priority />
+            <Image src="/assets/logo-caama-azul.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
           </Link>
 
           <Button asChild variant="outline">

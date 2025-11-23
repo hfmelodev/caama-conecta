@@ -100,6 +100,8 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               setIsSheetOpen={setIsSheetOpen}
             />
 
+            {isCollapsed && <Separator />}
+
             <SidebarLink
               href="/private/dashboard/profile"
               icon={<RiProfileLine className="size-5" />}
@@ -191,8 +193,8 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <SheetDescription className="sr-only" />
               </SheetHeader>
 
-              <nav className="grid gap-2.5 px-4">
-                <h3 className="font-semibold text-muted-foreground text-xs uppercase">Administrativo</h3>
+              <nav className="flex flex-col gap-2.5 overflow-hidden">
+                <h3 className="ml-4 font-semibold text-muted-foreground text-xs uppercase">Administrativo</h3>
                 <SidebarLink
                   href="/private/dashboard"
                   icon={<RxDashboard className="size-5" />}
@@ -226,9 +228,11 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   setIsSheetOpen={setIsSheetOpen}
                 />
 
-                <Separator className="my-2" />
+                <div className="mx-4">
+                  <Separator className="my-2" />
+                </div>
 
-                <h3 className="font-semibold text-muted-foreground text-xs uppercase">Minha Conta</h3>
+                <h3 className="ml-4 font-semibold text-muted-foreground text-xs uppercase">Minha Conta</h3>
                 <SidebarLink
                   href="/private/dashboard/profile"
                   icon={<RiProfileLine className="size-5" />}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './styles/globals.css'
+import SessionAuthProvider from '@/components/app/session-auth'
 
 export const metadata: Metadata = {
   title: 'CaamaConecta',
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className="font-geist antialiased">{children}</body>
+      <body className="font-geist antialiased">
+        <SessionAuthProvider>{children}</SessionAuthProvider>
+      </body>
     </html>
   )
 }

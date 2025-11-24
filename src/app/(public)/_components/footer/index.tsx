@@ -10,21 +10,21 @@ export function Footer() {
         <div className="flex items-center justify-between">
           <Image src="/assets/logo-caama-azul.png" alt="Logo" width={190} height={50} quality={100} priority />
 
-          <div className="flex items-center gap-4">
+          <div className="grid grid-cols-4 gap-2 sm:grid-cols-4">
             <SocialTooltip label="Instagram" link="https://www.instagram.com/caama.oabma/?utm_medium=copy_link">
-              <SiInstagram className="size-6" />
+              <SiInstagram className="size-5 sm:size-6" />
             </SocialTooltip>
 
             <SocialTooltip label="WhatsApp" link="https://wa.link/dpzt6t">
-              <FaWhatsapp className="size-6" />
+              <FaWhatsapp className="size-5 sm:size-6" />
             </SocialTooltip>
 
             <SocialTooltip label="Facebook" link="https://www.facebook.com/caama.oabma">
-              <FaFacebookSquare className="size-6" />
+              <FaFacebookSquare className="size-5 sm:size-6" />
             </SocialTooltip>
 
             <SocialTooltip label="Youtube" link="https://www.youtube.com/user/oabma">
-              <FaYoutube className="size-6" />
+              <FaYoutube className="size-5 sm:size-6" />
             </SocialTooltip>
           </div>
         </div>

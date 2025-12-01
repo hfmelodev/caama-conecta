@@ -1,16 +1,13 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
+import { UserContent } from './_components/users'
 
-export default async function City() {
+export default async function User() {
   const session = await auth()
 
   if (!session?.user || session?.user.role !== 'ADMIN') {
     redirect('/private/sign-in')
   }
 
-  return (
-    <main>
-      <div>City Private</div>
-    </main>
-  )
+  return <UserContent />
 }

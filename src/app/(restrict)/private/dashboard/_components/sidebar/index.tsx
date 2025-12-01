@@ -28,7 +28,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
   async function handleSignOut() {
     await signOut()
-    await update()
+    await update(session?.user.image as string)
 
     router.push('/private/sign-in')
   }
@@ -39,7 +39,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
       <aside
         className={cn('flex h-full flex-col border-r bg-background p-4 transition-all duration-300', {
           'w-20': isCollapsed,
-          'w-64': !isCollapsed,
+          'w-68': !isCollapsed,
           'hidden md:fixed md:flex md:items-center': true,
         })}
       >
@@ -62,9 +62,9 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               {isCollapsed ? (
-                <LuPanelLeftOpen className="size-5" strokeWidth={1.8} />
+                <LuPanelLeftOpen className="size-4" strokeWidth={1.6} />
               ) : (
-                <LuPanelRightOpen className="size-5" strokeWidth={1.8} />
+                <LuPanelRightOpen className="size-4" strokeWidth={1.6} />
               )}
             </Button>
           </TooltipTrigger>
@@ -81,44 +81,48 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <nav className="flex flex-col gap-4 overflow-hidden">
               <SidebarLink
                 href="/private/dashboard"
-                icon={<RxDashboard className="size-5" />}
+                icon={<RxDashboard className="size-4" />}
                 label="Dashboard"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
               />
-              <SidebarLink
-                href="/private/dashboard/city"
-                icon={<LuMapPinHouse className="size-5" />}
-                label="Cidades"
-                pathname={pathname}
-                isCollapsed={isCollapsed}
-                setIsSheetOpen={setIsSheetOpen}
-              />
+
               <SidebarLink
                 href="/private/dashboard/company"
-                icon={<Building2 className="size-5" />}
+                icon={<Building2 className="size-4" />}
                 label="Empresas"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
               />
+
               {session && session.user.role === 'ADMIN' && (
-                <SidebarLink
-                  href="/private/dashboard/user"
-                  icon={<User className="size-5" />}
-                  label="Usuários"
-                  pathname={pathname}
-                  isCollapsed={isCollapsed}
-                  setIsSheetOpen={setIsSheetOpen}
-                />
+                <>
+                  <SidebarLink
+                    href="/private/dashboard/city"
+                    icon={<LuMapPinHouse className="size-4" />}
+                    label="Cidades"
+                    pathname={pathname}
+                    isCollapsed={isCollapsed}
+                    setIsSheetOpen={setIsSheetOpen}
+                  />
+                  <SidebarLink
+                    href="/private/dashboard/users"
+                    icon={<User className="size-4" />}
+                    label="Usuários"
+                    pathname={pathname}
+                    isCollapsed={isCollapsed}
+                    setIsSheetOpen={setIsSheetOpen}
+                  />
+                </>
               )}
 
               {isCollapsed && <Separator />}
 
               <SidebarLink
                 href="/private/dashboard/profile"
-                icon={<RiProfileLine className="size-5" />}
+                icon={<RiProfileLine className="size-4" />}
                 label="Perfil"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
@@ -132,10 +136,10 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   <Button
                     variant="outline"
                     className="mt-auto w-full transition-all duration-300"
-                    size="icon-sm"
+                    size="icon"
                     onClick={handleSignOut}
                   >
-                    <LogOut className="size-4.5" />
+                    <LogOut className="size-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent className="bg-primary font-medium">Sair</TooltipContent>
@@ -150,37 +154,40 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <h3 className="font-semibold text-muted-foreground text-xs uppercase">Administrativo</h3>
               <SidebarLink
                 href="/private/dashboard"
-                icon={<RxDashboard className="size-5" />}
+                icon={<RxDashboard className="size-4" />}
                 label="Dashboard"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
               />
-              <SidebarLink
-                href="/private/dashboard/city"
-                icon={<LuMapPinHouse className="size-5" />}
-                label="Cidades"
-                pathname={pathname}
-                isCollapsed={isCollapsed}
-                setIsSheetOpen={setIsSheetOpen}
-              />
+
               <SidebarLink
                 href="/private/dashboard/company"
-                icon={<Building2 className="size-5" />}
+                icon={<Building2 className="size-4" />}
                 label="Empresas"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
               />
               {session && session.user.role === 'ADMIN' && (
-                <SidebarLink
-                  href="/private/dashboard/user"
-                  icon={<User className="size-5" />}
-                  label="Usuários"
-                  pathname={pathname}
-                  isCollapsed={isCollapsed}
-                  setIsSheetOpen={setIsSheetOpen}
-                />
+                <>
+                  <SidebarLink
+                    href="/private/dashboard/city"
+                    icon={<LuMapPinHouse className="size-4" />}
+                    label="Cidades"
+                    pathname={pathname}
+                    isCollapsed={isCollapsed}
+                    setIsSheetOpen={setIsSheetOpen}
+                  />
+                  <SidebarLink
+                    href="/private/dashboard/users"
+                    icon={<User className="size-4" />}
+                    label="Usuários"
+                    pathname={pathname}
+                    isCollapsed={isCollapsed}
+                    setIsSheetOpen={setIsSheetOpen}
+                  />
+                </>
               )}
 
               <Separator className="my-2" />
@@ -188,7 +195,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <h3 className="font-semibold text-muted-foreground text-xs uppercase">Minha Conta</h3>
               <SidebarLink
                 href="/private/dashboard/profile"
-                icon={<RiProfileLine className="size-5" />}
+                icon={<RiProfileLine className="size-4" />}
                 label="Perfil"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
@@ -202,7 +209,13 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
           <div className="mt-auto flex w-full flex-col space-y-2">
             <div className="flex items-center gap-3">
               {session?.user && (
-                <Image src={session.user.image ?? ''} alt={session.user.name} width={40} height={40} className="rounded-full" />
+                <Image
+                  src={session.user.image ?? ''}
+                  alt={session.user.name ?? ''}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
               )}
               <div className="flex flex-col">
                 <span className="font-medium text-sm">{session?.user.name}</span>
@@ -212,11 +225,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
             <Separator />
 
-            <Button
-              variant="secondary"
-              className="w-full font-semibold transition-all duration-300 hover:bg-rose-300"
-              onClick={handleSignOut}
-            >
+            <Button variant="outline" className="w-full text-sm" onClick={handleSignOut}>
               <LogOut />
               Sair do sistema
             </Button>
@@ -237,8 +246,8 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <Image src="/assets/logo-caama-azul.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
 
               <SheetTrigger asChild>
-                <Button variant="outline" size={'icon'} className="md:hidden" onClick={() => setIsCollapsed(false)}>
-                  <CiMenuFries className="size-5" />
+                <Button variant="outline" size="icon" className="md:hidden" onClick={() => setIsCollapsed(false)}>
+                  <CiMenuFries className="size-4" />
                 </Button>
               </SheetTrigger>
             </div>
@@ -251,41 +260,44 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <SheetDescription className="sr-only" />
               </SheetHeader>
 
-              <nav className="flex flex-col gap-2.5 overflow-hidden">
+              <nav className="mx-4 flex flex-col gap-2.5 overflow-hidden">
                 <h3 className="ml-4 font-semibold text-muted-foreground text-xs uppercase">Administrativo</h3>
                 <SidebarLink
                   href="/private/dashboard"
-                  icon={<RxDashboard className="size-5" />}
+                  icon={<RxDashboard className="size-4" />}
                   label="Dashboard"
                   pathname={pathname}
                   isCollapsed={isCollapsed}
                   setIsSheetOpen={setIsSheetOpen}
                 />
-                <SidebarLink
-                  href="/private/dashboard/city"
-                  icon={<LuMapPinHouse className="size-5" />}
-                  label="Cidades"
-                  pathname={pathname}
-                  isCollapsed={isCollapsed}
-                  setIsSheetOpen={setIsSheetOpen}
-                />
+
                 <SidebarLink
                   href="/private/dashboard/company"
-                  icon={<Building2 className="size-5" />}
+                  icon={<Building2 className="size-4" />}
                   label="Empresas"
                   pathname={pathname}
                   isCollapsed={isCollapsed}
                   setIsSheetOpen={setIsSheetOpen}
                 />
                 {session && session.user.role === 'ADMIN' && (
-                  <SidebarLink
-                    href="/private/dashboard/user"
-                    icon={<User className="size-5" />}
-                    label="Usuários"
-                    pathname={pathname}
-                    isCollapsed={isCollapsed}
-                    setIsSheetOpen={setIsSheetOpen}
-                  />
+                  <>
+                    <SidebarLink
+                      href="/private/dashboard/city"
+                      icon={<LuMapPinHouse className="size-4" />}
+                      label="Cidades"
+                      pathname={pathname}
+                      isCollapsed={isCollapsed}
+                      setIsSheetOpen={setIsSheetOpen}
+                    />
+                    <SidebarLink
+                      href="/private/dashboard/users"
+                      icon={<User className="size-4" />}
+                      label="Usuários"
+                      pathname={pathname}
+                      isCollapsed={isCollapsed}
+                      setIsSheetOpen={setIsSheetOpen}
+                    />
+                  </>
                 )}
 
                 <div className="mx-4">
@@ -295,7 +307,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <h3 className="ml-4 font-semibold text-muted-foreground text-xs uppercase">Minha Conta</h3>
                 <SidebarLink
                   href="/private/dashboard/profile"
-                  icon={<RiProfileLine className="size-5" />}
+                  icon={<RiProfileLine className="size-4" />}
                   label="Perfil"
                   pathname={pathname}
                   isCollapsed={isCollapsed}
@@ -308,7 +320,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   {session?.user && (
                     <Image
                       src={session.user.image ?? ''}
-                      alt={session.user.name}
+                      alt={session.user.name ?? ''}
                       width={40}
                       height={40}
                       className="rounded-full"
@@ -322,12 +334,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
                 <Separator />
 
-                <Button
-                  variant="secondary"
-                  className="w-full font-semibold transition-all duration-300 hover:bg-rose-300"
-                  size="icon"
-                  onClick={handleSignOut}
-                >
+                <Button variant="outline" className="w-full" size="icon" onClick={handleSignOut}>
                   <LogOut />
                   Sair da sistema
                 </Button>

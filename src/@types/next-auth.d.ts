@@ -7,9 +7,9 @@ declare module 'next-auth' {
 }
 export interface User {
   id: string
-  name: string
+  name: string | null
   email: string
-  emailVerified: string | null
+  emailVerified: Date | null
   image: string | null
   inactive: Date | null
   role: 'ADMIN' | 'MEMBER'

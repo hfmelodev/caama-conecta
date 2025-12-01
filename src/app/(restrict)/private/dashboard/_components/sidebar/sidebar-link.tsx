@@ -13,12 +13,12 @@ type SidebarLinkProps = {
 
 export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsSheetOpen }: SidebarLinkProps) {
   return (
-    <Link href={href} className="mx-4 sm:mx-0">
+    <Link href={href}>
       {!isCollapsed ? (
         <button
           type="button"
           className={cn(
-            'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-primary transition-colors hover:bg-primary hover:text-primary-foreground',
+            'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-primary text-sm transition-colors hover:bg-primary hover:text-primary-foreground',
             {
               'bg-primary text-muted': pathname === href,
             }

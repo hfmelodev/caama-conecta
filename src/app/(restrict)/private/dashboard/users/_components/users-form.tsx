@@ -1,16 +1,18 @@
+'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 const updateUserFormSchema = z.object({
-  id: z.string(),
+  id: z.cuid(),
   name: z.string().trim().nonempty({
     message: 'O nome é obrigatório',
   }),
   role: z.enum(['ADMIN', 'MEMBER']),
 })
 
-type UpdateUserFormType = z.infer<typeof updateUserFormSchema>
+export type UpdateUserFormType = z.infer<typeof updateUserFormSchema>
 
 export type UseUpdateUserFormType = {
   id: string
@@ -18,13 +20,13 @@ export type UseUpdateUserFormType = {
   role: 'ADMIN' | 'MEMBER'
 }
 
-export function useUpdateUserForm({ name, role }: UseUpdateUserFormType) {
+export function useUpdateUserForm({ id, name, role }: UseUpdateUserFormType) {
   return useForm<UpdateUserFormType>({
-    shouldUnregister: true,
     resolver: zodResolver(updateUserFormSchema),
-    defaultValues: {
+    values: {
+      id: id,
       name: name || '',
-      role: role || 'MEMBER',
+      role: role,
     },
   })
 }

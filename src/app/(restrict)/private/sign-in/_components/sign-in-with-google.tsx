@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { handleRegister } from '../_actions/sing-in'
+import { handleRegister } from '../_actions/sign-in'
 import { GoogleIcon } from './google-icon'
 
 export function SignInWithGoogle() {

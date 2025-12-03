@@ -1,17 +1,16 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Power } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import z from 'zod'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { cn } from '@/lib/utils'
 import { FilterUsers } from './filter-users'
+import { InactiveUser } from './inactive-user'
 import { PaginationUsers } from './pagination-users'
 import { UpdateUsers } from './update-users'
 import { UsersTableSkeleton } from './users-skeleton'
@@ -148,18 +147,8 @@ export function UserContent() {
                           {/* Componente de edição */}
                           <UpdateUsers user={user} />
 
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className={
-                              user.inactive
-                                ? 'text-emerald-600 hover:bg-emerald-500/30'
-                                : 'text-destructive hover:bg-destructive/30'
-                            }
-                          >
-                            <Power className="size-4" />
-                            <span className="sr-only">{user.inactive ? 'Ativar' : 'Inativar'}</span>
-                          </Button>
+                          {/* Componente de inativação */}
+                          <InactiveUser user={user} />
                         </div>
                       </TableCell>
                     </TableRow>

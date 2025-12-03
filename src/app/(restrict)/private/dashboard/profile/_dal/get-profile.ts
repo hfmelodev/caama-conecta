@@ -25,8 +25,6 @@ export async function getProfile({ userId }: getProfileProps) {
     return user
   } catch (err) {
     console.log(err)
-    return {
-      message: 'Houve um erro ao obter todos os usuários.',
-    }
+    return null
   }
 }

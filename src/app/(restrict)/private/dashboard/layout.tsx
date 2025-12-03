@@ -5,14 +5,10 @@ export const metadata: Metadata = {
   title: 'Dashboard - CaamaConecta',
 }
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <>
-      <SidebarDashboard>{children}</SidebarDashboard>
-    </>
-  )
+  return <SidebarDashboard>{children}</SidebarDashboard>
 }

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function SignIn() {
   const session = await auth()
 
-  if (session?.user) {
+  if (session?.user && session?.user.inactive === null) {
     redirect('/private/dashboard')
   }
 

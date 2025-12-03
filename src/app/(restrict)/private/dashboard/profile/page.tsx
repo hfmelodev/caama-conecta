@@ -10,6 +10,10 @@ export default async function Profile() {
     redirect('/private/sign-in')
   }
 
+  if (session.user && session.user.inactive) {
+    redirect('/private/sign-in/blocked')
+  }
+
   const user = await getProfile({
     userId: session.user.id,
   })

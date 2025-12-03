@@ -8,5 +8,9 @@ export default async function Dashboard() {
     redirect('/private/sign-in')
   }
 
+  if (session.user && session.user.inactive) {
+    redirect('/private/sign-in/blocked')
+  }
+
   return <div>Dashboard Private</div>
 }

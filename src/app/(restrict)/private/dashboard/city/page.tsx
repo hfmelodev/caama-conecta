@@ -8,6 +8,10 @@ export default async function City() {
     redirect('/private/sign-in')
   }
 
+  if (session.user && session.user.inactive) {
+    redirect('/private/sign-in/blocked')
+  }
+
   return (
     <main>
       <div>City Private</div>

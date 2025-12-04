@@ -12,6 +12,7 @@ enum Role {
   MEMBER
 }
 
+// Tabelas de Autenticação
 model User {
   id            String          @id @default(cuid())
   name          String?
@@ -89,4 +90,73 @@ model Authenticator {
 
   @@id([userId, credentialID])
   @@map("authenticators")
+}
+
+// Tabelas do Core da Aplicação
+model City {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  isThirst  Boolean  @default(false) @map("is_thirst")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  companies Company[]
+
+  @@map("cities")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String // Ex: Saúde, Alimentação, Educação
+  slug      String   @unique // Ex: saude, alimentacao, educacao
+  icon      String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  companies Company[]
+
+  @@map("categories")
+}
+
+model Company {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  description String? @db.Text
+  logoUrl     String? @map("logo_url")
+
+  // Contato
+  phone    String?
+  whatsapp String // Número do WhatsApp (obrigatório)
+  email    String?
+  website  String?
+
+  // Endereço
+  address      String?
+  neighborhood String?
+  zipCode      String? @map("zip_code")
+
+  // Benefícios
+  discount Int? // Ex: 10% de desconto
+  benefits String? @db.Text // Descrição detalhada dos benefícios
+
+  // Controle
+  active    Boolean  @default(true)
+  featured  Boolean  @default(false) // Empresas em destaque
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relações
+  city       City     @relation(fields: [cityId], references: [id])
+  cityId     String   @map("city_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @map("category_id")
+
+  @@index([cityId])
+  @@index([categoryId])
+  @@index([active])
+  @@map("companies")
 }

@@ -8,9 +8,13 @@ const newCityFormSchema = z.object({
   name: z.string().trim().nonempty({
     message: 'O nome é obrigatório',
   }),
-  slug: z.string().trim().nonempty({
-    message: 'O slug é obrigatório',
-  }),
+  slug: z
+    .string()
+    .trim()
+    .regex(/^[a-z]+(?:-[a-z]+)*$/, {
+      message: 'Use apenas letras minúsculas e hífens',
+    })
+    .nonempty(),
   isThirst: z.boolean(),
 })
 

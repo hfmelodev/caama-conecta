@@ -225,7 +225,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
             <Separator />
 
-            <Button variant="outline" className="w-full text-sm" onClick={handleSignOut}>
+            <Button variant="outline" size="sm" className="w-full text-sm" onClick={handleSignOut}>
               <LogOut />
               Sair do sistema
             </Button>

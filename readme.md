@@ -1,5 +1,5 @@
 # Cidades (City)
-[] - Criar nova cidade (Usando o Sheet do Shadcn)
+[X] - Criar nova cidade (Usando o Sheet do Shadcn)
 [] - Buscar todas as cidades usando Api Routes do Next.js
 [] - As cidades devem ser retornadas 5 por página
 [] - Filtrar cidades por nome

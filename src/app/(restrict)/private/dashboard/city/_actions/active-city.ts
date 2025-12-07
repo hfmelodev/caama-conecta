@@ -5,13 +5,13 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-const inactiveUserFormSchema = z.object({
+const activeCityFormSchema = z.object({
   id: z.cuid(),
 })
 
-export type InactiveUserFormType = z.infer<typeof inactiveUserFormSchema>
+export type ActiveCityFormType = z.infer<typeof activeCityFormSchema>
 
-export async function inactiveUser({ id }: InactiveUserFormType) {
+export async function activeCity({ id }: ActiveCityFormType) {
   const session = await auth()
 
   if (!session?.user) {
@@ -21,52 +21,52 @@ export async function inactiveUser({ id }: InactiveUserFormType) {
     }
   }
 
-  const schema = inactiveUserFormSchema.safeParse({
+  const schema = activeCityFormSchema.safeParse({
     id,
   })
 
   if (!schema.success) {
     return {
       status: 400,
-      error: 'Ocorreu um erro ao inativar o usuário',
+      error: 'Ocorreu um erro ao ativar a cidade',
     }
   }
 
-  const userExists = await prisma.user.findUnique({
+  const cityExists = await prisma.city.findUnique({
     where: {
       id: schema.data.id,
     },
   })
 
-  if (!userExists) {
+  if (!cityExists) {
     return {
       status: 404,
-      error: 'Usuário não encontrado',
+      error: 'Cidade não encontrada',
     }
   }
 
   try {
-    await prisma.user.update({
+    await prisma.city.update({
       where: {
-        id: id,
+        id: schema.data.id,
       },
       data: {
-        inactive: new Date(),
+        active: true,
         updatedAt: new Date(),
       },
     })
 
-    revalidatePath('/private/dashboard/users')
+    revalidatePath('/private/dashboard/city')
 
     return {
       status: 200,
-      message: 'Usuário inativado com sucesso',
+      message: 'Cidade ativada com sucesso',
     }
   } catch (err) {
     console.log(err)
     return {
       status: 500,
-      error: 'Ocorreu um erro ao inativar o usuário',
+      error: 'Ocorreu um erro ao ativar a cidade.',
     }
   }
 }

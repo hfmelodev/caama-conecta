@@ -19,7 +19,7 @@ export async function updateProfile({ id, name, role }: UserFormType) {
   if (!session?.user) {
     return {
       status: 401,
-      message: 'Usuário não autenticado',
+      message: 'Usuário não autenticado',
     }
   }
 
@@ -36,6 +36,19 @@ export async function updateProfile({ id, name, role }: UserFormType) {
     }
   }
 
+  const userExists = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  })
+
+  if (!userExists) {
+    return {
+      status: 404,
+      error: 'Usuário não encontrado',
+    }
+  }
+
   try {
     await prisma.user.update({
       where: {
@@ -47,7 +60,7 @@ export async function updateProfile({ id, name, role }: UserFormType) {
       },
     })
 
-    revalidatePath('private/dashboard/users')
+    revalidatePath('/private/dashboard/users')
 
     return {
       status: 200,

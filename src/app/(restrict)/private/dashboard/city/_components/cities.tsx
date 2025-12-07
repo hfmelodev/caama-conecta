@@ -1,17 +1,18 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { MapPin, Pencil, Power } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { CitiesSkeleton } from './cities-skeleton'
 import { FilterCities } from './filter-cities'
+import { InactiveCity } from './inactive-city'
 import { NewCity } from './new-city'
 import { PaginationCities } from './pagination-cities'
+import { UpdateCities } from './update-cities'
 
 interface CityProps {
   cities: {
@@ -134,12 +135,11 @@ export function CitiesContent() {
                       {/* Acões Info */}
                       <TableCell className="px-6 py-4 font-medium md:px-2 md:py-3">
                         <div className="flex items-center justify-center gap-2">
-                          <Button variant="outline" size="icon-sm">
-                            <Pencil className="size-4" />
-                          </Button>
-                          <Button variant="outline" size="icon-sm">
-                            <Power className="size-4 text-destructive" />
-                          </Button>
+                          {/* Componente de edição da Cidade */}
+                          <UpdateCities cities={city} />
+
+                          {/* Componente de inativar e ativar Cidade */}
+                          <InactiveCity city={city} />
                         </div>
                       </TableCell>
                     </TableRow>

@@ -17,7 +17,7 @@ export async function activeUser({ id }: ActiveUserFormType) {
   if (!session?.user) {
     return {
       status: 401,
-      message: 'Usuário não autenticado',
+      error: 'Usuário não autenticado',
     }
   }
 
@@ -28,7 +28,20 @@ export async function activeUser({ id }: ActiveUserFormType) {
   if (!schema.success) {
     return {
       status: 400,
-      message: 'Ocorreu um erro ao ativar o usuário',
+      error: 'Ocorreu um erro ao ativar o usuário',
+    }
+  }
+
+  const userExists = await prisma.user.findUnique({
+    where: {
+      id: schema.data.id,
+    },
+  })
+
+  if (!userExists) {
+    return {
+      status: 404,
+      error: 'Usuário não encontrado',
     }
   }
 

@@ -2,10 +2,10 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit2, Save } from 'lucide-react'
-import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Dialog,
   DialogClose,
@@ -18,48 +18,40 @@ import {
 } from '@/components/ui/dialog'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { updateProfile } from '../_actions/update-user'
-import { type UpdateUserFormType, useUpdateUserForm } from './users-form'
+import { updateProfile } from '../_actions/update-city'
+import { type UpdateCityFormType, useUpdateCityForm } from './update-city-form'
 
-type UpdateUsersProps = {
-  user: {
+type UpdateCityProps = {
+  cities: {
     id: string
-    name: string | null
-    role: 'ADMIN' | 'MEMBER'
+    name: string
+    slug: string
+    isThirst: boolean
   }
 }
 
-export function UpdateUsers({ user }: UpdateUsersProps) {
+export function UpdateCities({ cities }: UpdateCityProps) {
   const queryClient = useQueryClient()
-  const { update } = useSession()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const form = useUpdateUserForm({
-    id: user.id,
-    name: user.name,
-    role: user.role,
+  const form = useUpdateCityForm({
+    id: cities.id,
+    name: cities.name,
+    slug: cities.slug,
+    isThirst: cities.isThirst,
   })
 
-  async function handleUpdateUser({ id, name, role }: UpdateUserFormType) {
-    const response = await updateProfile({
-      id,
-      name,
-      role,
-    })
+  async function handleUpdateCity({ id, name, slug, isThirst }: UpdateCityFormType) {
+    const response = await updateProfile({ id, name, slug, isThirst })
 
     if (response.error) {
       toast.error(response.message)
       return
     }
 
-    await queryClient.invalidateQueries({
-      queryKey: ['users'],
-    })
-
-    await update({ name, role })
+    await queryClient.invalidateQueries({ queryKey: ['cities'] })
 
     setIsDialogOpen(false)
 
@@ -76,14 +68,14 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar Informações do Funcionário</DialogTitle>
-          <DialogDescription>Altere os dados do funcionário conforme necessário.</DialogDescription>
+          <DialogTitle>Editar Informações da Cidade</DialogTitle>
+          <DialogDescription>Altere os dados da cidade conforme necessário.</DialogDescription>
         </DialogHeader>
 
         <Separator />
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleUpdateUser)}>
+          <form onSubmit={form.handleSubmit(handleUpdateCity)}>
             <div className="space-y-4 py-4">
               <FormField
                 control={form.control}
@@ -108,23 +100,35 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
 
               <FormField
                 control={form.control}
-                name="role"
-                render={({ field }) => (
+                name="slug"
+                render={({ field, formState: { errors } }) => (
                   <FormItem>
-                    <FormLabel>Cargo Atual:</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="rounded-sm">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
+                    <FormLabel>Slug (URL):</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: sao-luis" {...field} className="rounded-sm placeholder:text-xs" />
+                    </FormControl>
 
-                      <SelectContent className="rounded-sm" defaultValue={field.value}>
-                        <SelectItem value="MEMBER">Membro</SelectItem>
-                        <SelectItem value="ADMIN">Administrador</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
+                    {errors.name ? (
+                      <FormMessage className="text-destructive text-xs">{errors.name.message}</FormMessage>
+                    ) : (
+                      <FormDescription className="text-muted-foreground text-xs">
+                        Use apenas letras minúsculas e hífens.
+                      </FormDescription>
+                    )}
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="isThirst"
+                render={({ field }) => (
+                  <FormItem className="flex items-center">
+                    <FormControl>
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                    </FormControl>
+
+                    <FormLabel className="text-sm">É a sede (São Luís)</FormLabel>
                   </FormItem>
                 )}
               />

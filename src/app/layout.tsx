@@ -6,6 +6,9 @@ import SessionAuthProvider from '@/components/app/session-auth'
 export const metadata: Metadata = {
   title: 'CaamaConecta',
   description: 'Descontos e benefícios exclusivos para advogados associados à CAAMA.',
+  icons: {
+    icon: '/assets/caama.ico',
+  },
 }
 
 export default function RootLayout({

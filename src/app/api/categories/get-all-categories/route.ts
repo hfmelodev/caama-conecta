@@ -8,8 +8,8 @@ export async function GET(request: NextRequest) {
   const name = searchParams.get('name') || ''
 
   try {
-    const [cities, total] = await Promise.all([
-      prisma.city.findMany({
+    const [categories, total] = await Promise.all([
+      prisma.category.findMany({
         where: {
           name: name ? { contains: name, mode: 'insensitive' } : undefined,
         },
@@ -17,33 +17,32 @@ export async function GET(request: NextRequest) {
           id: true,
           name: true,
           slug: true,
-          isThirst: true,
+          icon: true,
           active: true,
         },
-
         skip: (page - 1) * 8,
         take: 8,
       }),
-      prisma.city.count({
+      prisma.category.count({
         where: {
           name: name ? { contains: name, mode: 'insensitive' } : undefined,
         },
       }),
     ])
 
-    if (!cities) {
+    if (!categories) {
       return {
         status: 404,
-        message: 'Cidades não encontradas.',
+        error: 'Categorias não encontradas.',
       }
     }
 
-    return NextResponse.json({ cities, total }, { status: 200 })
+    return NextResponse.json({ categories, total }, { status: 200 })
   } catch (err) {
     console.log(err)
     return {
       status: 500,
-      message: 'Houve um erro ao obter todos os usuários.',
+      error: 'Houve um erro ao obter todos os   usuários.',
     }
   }
 }

@@ -23,6 +23,10 @@ export default async function BlockedPage() {
     redirect('/private/sign-in')
   }
 
+  if (session.user.inactive === null) {
+    redirect('/private/dashboard')
+  }
+
   const dataInactived = session?.user.inactive
 
   const formattedDate = dataInactived ? dayjs.utc(dataInactived).format('DD [de] MMMM [de] YYYY') : null

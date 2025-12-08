@@ -11,7 +11,7 @@ interface PaginationCitiesProps {
 }
 
 export function PaginationCities({ page, totalCount, onPageChange }: PaginationCitiesProps) {
-  const perPage = 10
+  const perPage = 8
   const pages = Math.ceil(totalCount / perPage) || 1
 
   return (

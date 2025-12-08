@@ -51,7 +51,7 @@ export function UpdateUsers({ user }: UpdateUsersProps) {
     })
 
     if (response.error) {
-      toast.error(response.message)
+      toast.error(response.error)
       return
     }
 

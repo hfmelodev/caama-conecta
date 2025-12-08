@@ -9,27 +9,27 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-const filterCitiesSchema = z.object({
+const filterCategoriesSchema = z.object({
   name: z.string().trim().optional(),
 })
 
-type FilterCitiesType = z.infer<typeof filterCitiesSchema>
+type FilterCategoriesType = z.infer<typeof filterCategoriesSchema>
 
-export function FilterCities() {
+export function FilterCategories() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
   const name = searchParams.get('name') || ''
 
-  const form = useForm<FilterCitiesType>({
+  const form = useForm<FilterCategoriesType>({
     shouldUnregister: true,
-    resolver: zodResolver(filterCitiesSchema),
+    resolver: zodResolver(filterCategoriesSchema),
     defaultValues: {
       name: name || '',
     },
   })
 
-  function handleFilterCities({ name }: FilterCitiesType) {
+  function handleFilterCategories({ name }: FilterCategoriesType) {
     const url = new URLSearchParams(searchParams.toString())
 
     if (name) url.set('name', name.toString())
@@ -49,7 +49,10 @@ export function FilterCities() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleFilterCities)} className="flex w-full flex-col gap-3 sm:flex-row sm:items-center">
+      <form
+        onSubmit={form.handleSubmit(handleFilterCategories)}
+        className="flex w-full flex-col gap-3 sm:flex-row sm:items-center"
+      >
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <span className="font-semibold text-sm">Filtros:</span>
 

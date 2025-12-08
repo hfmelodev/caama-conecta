@@ -15,49 +15,45 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { activeUser } from '../_actions/active-user'
-import { inactiveUser } from '../_actions/inactive-user'
+import { activeCategory } from '../_actions/active-category'
+import { inactiveCategory } from '../_actions/inactive-category'
 
-type InactiveUserProps = {
-  user: {
+type InactiveCategoryProps = {
+  category: {
     id: string
-    inactive: Date | null
+    active: boolean
   }
 }
 
-export function InactiveUser({ user }: InactiveUserProps) {
+export function InactiveCategory({ category }: InactiveCategoryProps) {
   const queryClient = useQueryClient()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  async function handleInactiveUser(id: string) {
-    const response = await inactiveUser({ id })
+  async function handleInactiveCategory(id: string) {
+    const response = await inactiveCategory({ id })
 
     if (response.error) {
       toast.error(response.error)
       return
     }
 
-    await queryClient.invalidateQueries({
-      queryKey: ['users'],
-    })
+    await queryClient.invalidateQueries({ queryKey: ['categories'] })
 
     setIsDialogOpen(false)
 
     toast.success(response.message)
   }
 
-  async function handleActiveUser(id: string) {
-    const response = await activeUser({ id })
+  async function handleActiveCategory(id: string) {
+    const response = await activeCategory({ id })
 
     if (response.error) {
       toast.error(response.error)
       return
     }
 
-    await queryClient.invalidateQueries({
-      queryKey: ['users'],
-    })
+    await queryClient.invalidateQueries({ queryKey: ['categories'] })
 
     setIsDialogOpen(false)
 
@@ -70,24 +66,23 @@ export function InactiveUser({ user }: InactiveUserProps) {
         <Button
           variant="outline"
           size="icon"
-          className={user.inactive ? 'text-emerald-600 hover:bg-emerald-500/30' : 'text-destructive hover:bg-destructive/30'}
+          className={category.active ? 'text-destructive hover:bg-destructive/30' : 'text-emerald-600 hover:bg-emerald-500/30'}
         >
           <Power className="size-4" />
-          <span className="sr-only">{user.inactive ? 'Ativar' : 'Inativar'}</span>
+          <span className="sr-only">{category.active ? 'Inativar' : 'Ativar'}</span>
         </Button>
       </DialogTrigger>
-
       <DialogContent>
         <DialogHeader>
-          {user.inactive ? (
+          {category.active ? (
             <>
-              <DialogTitle>Ativar usuário</DialogTitle>
-              <DialogDescription>Tem certeza que deseja ativar esse usuário?</DialogDescription>
+              <DialogTitle>Inativar categoria</DialogTitle>
+              <DialogDescription>Tem certeza que deseja inativar esta categoria?</DialogDescription>
             </>
           ) : (
             <>
-              <DialogTitle>Inativar usuário</DialogTitle>
-              <DialogDescription>Tem certeza que deseja inativar esse usuário?</DialogDescription>
+              <DialogTitle>Ativar categoria</DialogTitle>
+              <DialogDescription>Tem certeza que deseja ativar esta categoria?</DialogDescription>
             </>
           )}
         </DialogHeader>
@@ -99,26 +94,26 @@ export function InactiveUser({ user }: InactiveUserProps) {
             </Button>
           </DialogClose>
 
-          {user.inactive ? (
-            <Button
-              type="button"
-              size="sm"
-              className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
-              onClick={() => handleActiveUser(user.id)}
-            >
-              <Power className="size-4" />
-              Ativar
-            </Button>
-          ) : (
+          {category.active ? (
             <Button
               type="button"
               variant="destructive"
               size="sm"
               className="rounded-sm md:w-[50%]"
-              onClick={() => handleInactiveUser(user.id)}
+              onClick={() => handleInactiveCategory(category.id)}
             >
               <Power className="size-4" />
               Desativar
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              size="sm"
+              className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
+              onClick={() => handleActiveCategory(category.id)}
+            >
+              <Power className="size-4" />
+              Ativar
             </Button>
           )}
         </DialogFooter>

@@ -5,7 +5,7 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-const cityFormSchema = z.object({
+const categoryFormSchema = z.object({
   id: z.cuid(),
   name: z.string().trim().nonempty({
     message: 'O nome é obrigatório',
@@ -17,12 +17,12 @@ const cityFormSchema = z.object({
       message: 'Use apenas letras minúsculas e hífens',
     })
     .nonempty(),
-  isThirst: z.boolean(),
+  icon: z.string().optional(),
 })
 
-export type CityFormType = z.infer<typeof cityFormSchema>
+export type CategoryFormType = z.infer<typeof categoryFormSchema>
 
-export async function updateProfile({ id, name, slug, isThirst }: CityFormType) {
+export async function updateCategory({ id, name, slug, icon }: CategoryFormType) {
   const session = await auth()
 
   if (!session?.user) {
@@ -32,11 +32,11 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     }
   }
 
-  const schema = cityFormSchema.safeParse({
+  const schema = categoryFormSchema.safeParse({
     id,
     name,
     slug,
-    isThirst,
+    icon,
   })
 
   if (!schema.success) {
@@ -46,43 +46,43 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     }
   }
 
-  const cityExists = await prisma.city.findUnique({
+  const categoryExists = await prisma.category.findUnique({
     where: {
       id: schema.data.id,
     },
   })
 
-  if (!cityExists) {
+  if (!categoryExists) {
     return {
       status: 404,
-      error: 'Cidade não encontrada',
+      error: 'Categoria não encontrada',
     }
   }
 
   try {
-    await prisma.city.update({
+    await prisma.category.update({
       where: {
         id: id,
       },
       data: {
         name,
         slug,
-        isThirst,
+        icon,
       },
     })
 
-    revalidatePath('/private/dashboard/city')
+    revalidatePath('/private/dashboard/category')
 
     return {
       status: 200,
-      message: 'Cidade atualizada com sucesso',
+      message: 'Categoria atualizada com sucesso',
     }
   } catch (err) {
     console.log(err)
 
     return {
       status: 500,
-      error: 'Ocorreu um erro ao atualizar a cidade.',
+      error: 'Ocorreu um erro ao atualizar a categoria.',
     }
   }
 }

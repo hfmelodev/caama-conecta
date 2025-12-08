@@ -8,12 +8,13 @@
 [X] - Desativar cidade 
 
 # Categorias (Categories)
-[] - Criar rota de categorias
-[] - Adicionar no Sidebar
-[] - Criar nova categoria (Usando o Sheet do Shadcn)
-[] - Buscar todas as categorias usando Api Routes do Next.js
-[] - As categorias devem ser retornadas 5 por página
-[] - Filtrar categorias por nome
-[] - Paginação de 5 em 5 por página
-[] - Alterar Nome, Slug, Tipo (Sede/Subseção) da Cidade
-[] - Desativar categoria 
+[X] - Criar rota de categorias
+[X] - Adicionar no Sidebar
+[X] - Criar nova categoria (Usando o Sheet do Shadcn)
+[X] - Buscar todas as categorias usando Api Routes do Next.js
+[X] - As categorias devem ser retornadas 8 por página
+[X] - Filtrar categorias por nome
+[X] - Paginação de 8 em 8 por página
+[X] - Alterar Nome, Slug, Icone
+[X] - Desativar categoria 
+

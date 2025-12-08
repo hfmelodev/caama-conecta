@@ -1,6 +1,6 @@
 'use client'
 
-import { Building2, LogOut, User } from 'lucide-react'
+import { Building2, Layers, LogOut, User } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
@@ -82,7 +82,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <SidebarLink
                 href="/private/dashboard"
                 icon={<RxDashboard className="size-4" />}
-                label="Dashboard"
+                label="Home"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
@@ -99,6 +99,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
               {session && session.user.role === 'ADMIN' && (
                 <>
+                  <SidebarLink
+                    href="/private/dashboard/category"
+                    icon={<Layers className="size-4" />}
+                    label="Categorias"
+                    pathname={pathname}
+                    isCollapsed={isCollapsed}
+                    setIsSheetOpen={setIsSheetOpen}
+                  />
                   <SidebarLink
                     href="/private/dashboard/city"
                     icon={<LuMapPinHouse className="size-4" />}
@@ -130,20 +138,24 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               />
             </nav>
 
-            {isCollapsed && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="mt-auto w-full transition-all duration-300"
-                    size="icon"
-                    onClick={handleSignOut}
-                  >
-                    <LogOut className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent className="bg-primary font-medium">Sair</TooltipContent>
-              </Tooltip>
+            {isCollapsed && session && (
+              <div className="mt-auto flex flex-col gap-3">
+                <Image
+                  src={session.user.image ?? ''}
+                  alt={session.user.name ?? ''}
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="outline" className="w-full transition-all duration-300" size="icon" onClick={handleSignOut}>
+                      <LogOut className="size-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-primary font-medium">Sair</TooltipContent>
+                </Tooltip>
+              </div>
             )}
           </>
         )}
@@ -155,7 +167,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <SidebarLink
                 href="/private/dashboard"
                 icon={<RxDashboard className="size-4" />}
-                label="Dashboard"
+                label="Home"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
@@ -171,6 +183,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               />
               {session && session.user.role === 'ADMIN' && (
                 <>
+                  <SidebarLink
+                    href="/private/dashboard/category"
+                    icon={<Layers className="size-4" />}
+                    label="Categorias"
+                    pathname={pathname}
+                    isCollapsed={isCollapsed}
+                    setIsSheetOpen={setIsSheetOpen}
+                  />
                   <SidebarLink
                     href="/private/dashboard/city"
                     icon={<LuMapPinHouse className="size-4" />}
@@ -265,7 +285,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <SidebarLink
                   href="/private/dashboard"
                   icon={<RxDashboard className="size-4" />}
-                  label="Dashboard"
+                  label="Home"
                   pathname={pathname}
                   isCollapsed={isCollapsed}
                   setIsSheetOpen={setIsSheetOpen}
@@ -281,6 +301,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 />
                 {session && session.user.role === 'ADMIN' && (
                   <>
+                    <SidebarLink
+                      href="/private/dashboard/category"
+                      icon={<Layers className="size-4" />}
+                      label="Categorias"
+                      pathname={pathname}
+                      isCollapsed={isCollapsed}
+                      setIsSheetOpen={setIsSheetOpen}
+                    />
                     <SidebarLink
                       href="/private/dashboard/city"
                       icon={<LuMapPinHouse className="size-4" />}

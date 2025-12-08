@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
-import { UserContent } from './_components/users'
+import { CategoriesContent } from './_components/categories'
 
-export default async function User() {
+export default async function Categories() {
   const session = await auth()
 
   if (!session?.user || session?.user.role !== 'ADMIN') {
@@ -13,5 +13,5 @@ export default async function User() {
     redirect('/private/sign-in/blocked')
   }
 
-  return <UserContent />
+  return <CategoriesContent />
 }

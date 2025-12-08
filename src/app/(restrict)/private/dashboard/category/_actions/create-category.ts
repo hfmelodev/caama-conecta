@@ -5,8 +5,7 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
-const cityFormSchema = z.object({
-  id: z.cuid(),
+const newCategoryFormSchema = z.object({
   name: z.string().trim().nonempty({
     message: 'O nome é obrigatório',
   }),
@@ -17,26 +16,25 @@ const cityFormSchema = z.object({
       message: 'Use apenas letras minúsculas e hífens',
     })
     .nonempty(),
-  isThirst: z.boolean(),
+  icon: z.string().optional(),
 })
 
-export type CityFormType = z.infer<typeof cityFormSchema>
+type NewCategoryFormType = z.infer<typeof newCategoryFormSchema>
 
-export async function updateProfile({ id, name, slug, isThirst }: CityFormType) {
+export async function createCategory({ name, slug, icon }: NewCategoryFormType) {
   const session = await auth()
 
   if (!session?.user) {
     return {
       status: 401,
-      error: 'Usuário não autenticado',
+      error: 'Usuário não autenticado',
     }
   }
 
-  const schema = cityFormSchema.safeParse({
-    id,
+  const schema = newCategoryFormSchema.safeParse({
     name,
     slug,
-    isThirst,
+    icon,
   })
 
   if (!schema.success) {
@@ -46,43 +44,39 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     }
   }
 
-  const cityExists = await prisma.city.findUnique({
+  const categoryExists = await prisma.category.findUnique({
     where: {
-      id: schema.data.id,
+      slug,
     },
   })
 
-  if (!cityExists) {
+  if (categoryExists) {
     return {
-      status: 404,
-      error: 'Cidade não encontrada',
+      status: 400,
+      error: 'Categoria já cadastrada no sistema.',
     }
   }
 
   try {
-    await prisma.city.update({
-      where: {
-        id: id,
-      },
+    await prisma.category.create({
       data: {
         name,
         slug,
-        isThirst,
+        icon,
       },
     })
 
-    revalidatePath('/private/dashboard/city')
+    revalidatePath('/private/dashboard/category')
 
     return {
-      status: 200,
-      message: 'Cidade atualizada com sucesso',
+      status: 201,
+      message: 'Categoria cadastrada com sucesso.',
     }
   } catch (err) {
     console.log(err)
-
     return {
       status: 500,
-      error: 'Ocorreu um erro ao atualizar a cidade.',
+      error: 'Erro ao cadastrar categoria.',
     }
   }
 }

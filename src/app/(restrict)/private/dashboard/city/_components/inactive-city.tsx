@@ -34,7 +34,7 @@ export function InactiveCity({ city }: InactiveCityProps) {
     const response = await inactiveCity({ id })
 
     if (response.error) {
-      toast.error(response.message)
+      toast.error(response.error)
       return
     }
 
@@ -49,7 +49,7 @@ export function InactiveCity({ city }: InactiveCityProps) {
     const response = await activeCity({ id })
 
     if (response.error) {
-      toast.error(response.message)
+      toast.error(response.error)
       return
     }
 

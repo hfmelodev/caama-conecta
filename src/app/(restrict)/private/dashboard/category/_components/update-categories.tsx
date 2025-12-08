@@ -5,7 +5,6 @@ import { Edit2, Save } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   Dialog,
   DialogClose,
@@ -19,39 +18,39 @@ import {
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { updateProfile } from '../_actions/update-city'
-import { type UpdateCityFormType, useUpdateCityForm } from './update-city-form'
+import { updateCategory } from '../_actions/update-category'
+import { type UpdateCategoryFormType, useUpdateCategoryForm } from './update-category-form'
 
-type UpdateCityProps = {
-  cities: {
+type UpdateCategoryProps = {
+  categories: {
     id: string
     name: string
     slug: string
-    isThirst: boolean
+    icon: string | null
   }
 }
 
-export function UpdateCities({ cities }: UpdateCityProps) {
+export function UpdateCategories({ categories }: UpdateCategoryProps) {
   const queryClient = useQueryClient()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const form = useUpdateCityForm({
-    id: cities.id,
-    name: cities.name,
-    slug: cities.slug,
-    isThirst: cities.isThirst,
+  const form = useUpdateCategoryForm({
+    id: categories.id,
+    name: categories.name,
+    slug: categories.slug,
+    icon: categories.icon,
   })
 
-  async function handleUpdateCity({ id, name, slug, isThirst }: UpdateCityFormType) {
-    const response = await updateProfile({ id, name, slug, isThirst })
+  async function handleUpdateCategory({ id, name, slug, icon }: UpdateCategoryFormType) {
+    const response = await updateCategory({ id, name, slug, icon })
 
     if (response.error) {
       toast.error(response.error)
       return
     }
 
-    await queryClient.invalidateQueries({ queryKey: ['cities'] })
+    await queryClient.invalidateQueries({ queryKey: ['categories'] })
 
     setIsDialogOpen(false)
 
@@ -68,14 +67,14 @@ export function UpdateCities({ cities }: UpdateCityProps) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Editar Informações da Cidade</DialogTitle>
-          <DialogDescription>Altere os dados da cidade conforme necessário.</DialogDescription>
+          <DialogTitle>Editar Informações da Categoria</DialogTitle>
+          <DialogDescription>Altere os dados da categoria conforme necessário.</DialogDescription>
         </DialogHeader>
 
         <Separator />
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleUpdateCity)}>
+          <form onSubmit={form.handleSubmit(handleUpdateCategory)}>
             <div className="space-y-4 py-4">
               <FormField
                 control={form.control}
@@ -91,7 +90,7 @@ export function UpdateCities({ cities }: UpdateCityProps) {
                       <FormMessage className="text-destructive text-xs">{errors.name.message}</FormMessage>
                     ) : (
                       <FormDescription className="text-muted-foreground text-xs">
-                        Por favor, insira o nome completo do funcionário
+                        Por favor, insira o nome completo da categoria
                       </FormDescription>
                     )}
                   </FormItem>
@@ -121,14 +120,13 @@ export function UpdateCities({ cities }: UpdateCityProps) {
 
               <FormField
                 control={form.control}
-                name="isThirst"
+                name="icon"
                 render={({ field }) => (
-                  <FormItem className="flex items-center">
+                  <FormItem>
+                    <FormLabel>Ícone (Opcional):</FormLabel>
                     <FormControl>
-                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      <Input {...field} className="rounded-sm" />
                     </FormControl>
-
-                    <FormLabel className="text-sm">É a sede (São Luís)</FormLabel>
                   </FormItem>
                 )}
               />

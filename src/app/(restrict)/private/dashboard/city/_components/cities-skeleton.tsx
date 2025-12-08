@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 export function CitiesSkeleton() {
-  return Array.from({ length: 10 }, (_, index) => (
+  return Array.from({ length: 8 }, (_, index) => (
     <TableRow key={index} className="py-5">
       {/* City name */}
       <TableCell className="px-6 py-4 md:px-2 md:py-3">

@@ -19,7 +19,7 @@ export async function updateProfile({ id, name, role }: UserFormType) {
   if (!session?.user) {
     return {
       status: 401,
-      message: 'Usuário não autenticado',
+      error: 'Usuário não autenticado',
     }
   }
 
@@ -32,7 +32,7 @@ export async function updateProfile({ id, name, role }: UserFormType) {
   if (!schema.success) {
     return {
       status: 400,
-      message: 'Os campos obrigatórios devem ser preenchidos',
+      error: 'Os campos obrigatórios devem ser preenchidos',
     }
   }
 

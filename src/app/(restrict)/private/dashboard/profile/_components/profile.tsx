@@ -116,7 +116,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                 />
               </div>
 
-              <Button type="submit" className="mt-2 w-full">
+              <Button type="submit" className="mt-2 w-full bg-linear-to-r from-primary to-sky-600">
                 <Save />
                 Salvar
               </Button>

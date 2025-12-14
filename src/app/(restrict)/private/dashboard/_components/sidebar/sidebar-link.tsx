@@ -18,9 +18,9 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
         <button
           type="button"
           className={cn(
-            'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-primary text-sm transition-colors hover:bg-primary hover:text-primary-foreground',
+            'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-primary text-sm transition-colors hover:bg-linear-to-r hover:from-primary hover:to-sky-600 hover:text-primary-foreground',
             {
-              'bg-primary text-muted': pathname === href,
+              'bg-linear-to-r from-primary to-sky-600 text-muted': pathname === href,
             }
           )}
           onClick={() => setIsSheetOpen(false)}
@@ -33,16 +33,16 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
           <TooltipTrigger asChild>
             <span
               className={cn(
-                'flex items-center gap-2 rounded-md border px-3 py-2 text-primary transition-colors hover:bg-primary hover:text-primary-foreground',
+                'flex items-center gap-2 rounded-md border px-3 py-2 text-primary transition-colors hover:bg-linear-to-r hover:from-primary hover:to-sky-600 hover:text-primary-foreground',
                 {
-                  'bg-primary text-muted': pathname === href,
+                  'bg-linear-to-r from-primary to-sky-600 text-muted': pathname === href,
                 }
               )}
             >
               {icon}
             </span>
           </TooltipTrigger>
-          <TooltipContent className="bg-primary font-medium" sideOffset={10} side="right">
+          <TooltipContent className="bg-linear-to-r from-primary to-sky-600 font-medium" sideOffset={10} side="right">
             <p>{label}</p>
           </TooltipContent>
         </Tooltip>

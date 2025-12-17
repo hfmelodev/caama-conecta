@@ -15,18 +15,47 @@ const newCompanyFormSchema = z.object({
       message: 'Use apenas letras minúsculas e hífens',
     })
     .nonempty(),
-  description: z.string().trim().optional(),
+  description: z.string().trim().nonempty({
+    message: 'A descrição é obrigatória',
+  }),
+  logoUrl: z.url().optional(),
   phone: z.string().trim().optional(),
   whatsapp: z.string().trim().nonempty({
     message: 'O WhatsApp é obrigatório',
   }),
-  email: z.email().optional(),
-  website: z.url().optional(),
-  address: z.string().trim().optional(),
-  neighborhood: z.string().trim().optional(),
-  zipCode: z.string().trim().optional(),
-  discount: z.number().int('Use um número inteiro').min(0, 'Mínimo 0%').max(100, 'Máximo 100%').optional(),
-  benefits: z.string().trim().optional(),
+  email: z
+    .email({
+      message: 'Insira um e-mail válido',
+    })
+    .trim(),
+  instagram: z.string().trim().nonempty({
+    message: 'O Instagram é obrigatório',
+  }),
+  address: z.string().trim().nonempty({
+    message: 'O endereço é obrigatório',
+  }),
+  neighborhood: z.string().trim().nonempty({
+    message: 'O bairro é obrigatório',
+  }),
+  zipCode: z.string().trim().nonempty({
+    message: 'O CEP é obrigatório',
+  }),
+  discount: z
+    .string()
+    .trim()
+    .nonempty({ message: 'O desconto é obrigatório' })
+    .refine(
+      value => {
+        const number = Number(value)
+        return !Number.isNaN(number) && number >= 0 && number <= 100
+      },
+      {
+        message: 'O desconto deve ser um número entre 0 e 100',
+      }
+    ),
+  benefits: z.string().trim().nonempty({
+    message: 'Os benefícios são obrigatórios',
+  }),
   featured: z.boolean().optional(),
   cityId: z.cuid({
     message: 'A cidade é obrigatória',
@@ -41,16 +70,17 @@ export type NewCompanyFormType = z.input<typeof newCompanyFormSchema>
 type UseNewCompanyFormType = {
   name: string
   slug: string
-  description?: string
+  description: string
+  logoUrl?: string
   phone?: string
   whatsapp: string
-  email?: string
-  website?: string
-  address?: string
-  neighborhood?: string
-  zipCode?: string
-  discount?: number
-  benefits?: string
+  email: string
+  instagram: string
+  address: string
+  neighborhood: string
+  zipCode: string
+  discount: string
+  benefits: string
   featured?: boolean
   cityId: string
   categoryId: string
@@ -60,10 +90,11 @@ export function useNewCompanyForm({
   name,
   slug,
   description,
+  logoUrl,
   phone,
   whatsapp,
   email,
-  website,
+  instagram,
   address,
   neighborhood,
   zipCode,
@@ -80,10 +111,11 @@ export function useNewCompanyForm({
       name: name || '',
       slug: slug || '',
       description: description || '',
+      logoUrl: logoUrl || '',
       phone: phone || '',
       whatsapp: whatsapp || '',
-      email: email ?? undefined,
-      website: website ?? undefined,
+      email: email || '',
+      instagram: instagram || '',
       address: address || '',
       neighborhood: neighborhood || '',
       zipCode: zipCode || '',

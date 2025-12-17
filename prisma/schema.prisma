@@ -129,19 +129,19 @@ model Company {
   logoUrl     String? @map("logo_url")
 
   // Contato
-  phone    String?
-  whatsapp String // Número do WhatsApp (obrigatório)
-  email    String?
-  website  String?
+  phone     String?
+  whatsapp  String // Número do WhatsApp (obrigatório)
+  email     String
+  instagram String
 
   // Endereço
-  address      String?
-  neighborhood String?
-  zipCode      String? @map("zip_code")
+  address      String
+  neighborhood String
+  zipCode      String @map("zip_code")
 
   // Benefícios
-  discount Int? // Ex: 10% de desconto
-  benefits String? @db.Text // Descrição detalhada dos benefícios
+  discount String // Ex: 10% de desconto
+  benefits String @db.Text // Descrição detalhada dos benefícios
 
   // Controle
   active    Boolean  @default(true)

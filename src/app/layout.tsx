@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="font-geist antialiased">
         <SessionAuthProvider>
-          <Toaster richColors position="top-center" />
+          <Toaster richColors position="top-right" />
           {children}
         </SessionAuthProvider>
       </body>

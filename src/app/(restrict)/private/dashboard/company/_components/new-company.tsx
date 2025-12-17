@@ -1,7 +1,10 @@
 'use client'
 
-import { Save, Upload } from 'lucide-react'
+import { Building2, Hash, LocateFixed, Mail, MapPin, Save } from 'lucide-react'
+import { useState } from 'react'
+import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 import { ImSpinner2 } from 'react-icons/im'
+import { RiPercentFill } from 'react-icons/ri'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -11,7 +14,12 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { Category, City } from '@/generated/prisma/client'
+import { formatCep } from '@/utils/format-cep'
+import { formatPhone } from '@/utils/format-phone'
+import { formatWhatsapp } from '@/utils/format-whatsapp'
+import { onlyNumbers } from '@/utils/only-numbers'
 import { createCompany } from '../_actions/create-company'
+import { AvatarCompany } from './avatar-company'
 import { type NewCompanyFormType, useNewCompanyForm } from './new-company-form'
 
 interface NewCompanyProps {
@@ -20,25 +28,31 @@ interface NewCompanyProps {
 }
 
 export function NewCompany({ cities, categories }: NewCompanyProps) {
+  const [logoUrl, setLogoUrl] = useState<string | undefined>(undefined)
+
   const form = useNewCompanyForm({
     name: '',
     slug: '',
     description: '',
+    logoUrl,
     phone: '',
     whatsapp: '',
     email: '',
-    website: '',
+    instagram: '',
     address: '',
     neighborhood: '',
     zipCode: '',
-    discount: 0,
+    discount: '',
     benefits: '',
     cityId: '',
     categoryId: '',
   })
 
   async function handleNewCompany(data: NewCompanyFormType) {
-    const response = await createCompany(data)
+    const response = await createCompany({
+      ...data,
+      logoUrl,
+    })
 
     if (response.error) {
       toast.error(response.error)
@@ -46,6 +60,9 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
     }
 
     toast.success(response.message)
+
+    setLogoUrl(undefined)
+    form.reset()
   }
 
   return (
@@ -61,25 +78,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
         <CardContent>
           <Form {...form}>
             <form className="space-y-8" onSubmit={form.handleSubmit(handleNewCompany)}>
-              {/* Upload Area */}
-              <div className="mx-auto max-w-md px-8">
-                <input type="file" accept="image/*" id="file" className="hidden" />
-
-                <button
-                  type="button"
-                  className="w-full cursor-pointer rounded-xl border-2 border-primary/40 border-dashed p-8 transition-all hover:border-primary hover:bg-primary/5"
-                >
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Upload className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="text-center">
-                      <p className="font-medium text-foreground text-sm">Clique para enviar ou arraste a imagem</p>
-                      <p className="mt-1 text-muted-foreground text-xs">PNG, JPG, GIF até 5MB</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
+              {/* Avatar Company */}
+              <AvatarCompany logoUrl={logoUrl} setLogoUrl={setLogoUrl} />
 
               {/* Informações Básicas */}
               <div className="space-y-4 border-border border-t pt-8">
@@ -95,7 +95,14 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                           Nome da Empresa <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: Clínica Vida Plena" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <Building2 className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="Clínica Vida Plena"
+                              {...field}
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            />
+                          </div>
                         </FormControl>
 
                         <FormMessage className="text-destructive text-xs" />
@@ -112,7 +119,14 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                           Slug (URL) <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: clínica-vida-plena" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <Hash className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="clinica-vida-plena"
+                              {...field}
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            />
+                          </div>
                         </FormControl>
 
                         <FormMessage className="text-destructive text-xs" />
@@ -133,7 +147,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         <Textarea
                           placeholder="Breve descrição da empresa"
                           {...field}
-                          className="h-28 rounded-sm placeholder:text-sm"
+                          className="h-28 rounded-sm placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                         />
                       </FormControl>
 
@@ -153,7 +167,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         </FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <SelectTrigger className="w-full rounded-sm">
+                            <SelectTrigger className="w-full rounded-sm focus-visible:ring-1 focus-visible:ring-primary">
                               <SelectValue placeholder="Selecione..." />
                             </SelectTrigger>
                           </FormControl>
@@ -166,7 +180,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormMessage />
+
+                        <FormMessage className="text-destructive text-xs" />
                       </FormItem>
                     )}
                   />
@@ -181,7 +196,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         </FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <SelectTrigger className="w-full rounded-sm">
+                            <SelectTrigger className="w-full rounded-sm focus-visible:ring-1 focus-visible:ring-primary">
                               <SelectValue placeholder="Selecione..." />
                             </SelectTrigger>
                           </FormControl>
@@ -197,7 +212,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormMessage />
+
+                        <FormMessage className="text-destructive text-xs" />
                       </FormItem>
                     )}
                   />
@@ -216,7 +232,19 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                       <FormItem>
                         <FormLabel>Telefone</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: (98) 3234-5678" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <FaPhoneAlt className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="(98) 2152-3456"
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                              {...field}
+                              value={formatPhone(field.value ?? '')}
+                              onChange={e => {
+                                const rawValue = onlyNumbers(e.target.value)
+                                field.onChange(rawValue)
+                              }}
+                            />
+                          </div>
                         </FormControl>
 
                         {errors.phone ? (
@@ -235,9 +263,23 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                     name="whatsapp"
                     render={({ field, formState: { errors } }) => (
                       <FormItem>
-                        <FormLabel>WhatsApp</FormLabel>
+                        <FormLabel>
+                          WhatsApp <span className="mt-0.5 text-destructive">*</span>
+                        </FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: (98) 98329-1170" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <FaWhatsapp className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="(98) 98329-1170"
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                              {...field}
+                              value={formatWhatsapp(field.value ?? '')}
+                              onChange={e => {
+                                const rawValue = onlyNumbers(e.target.value)
+                                field.onChange(rawValue)
+                              }}
+                            />
+                          </div>
                         </FormControl>
 
                         {errors.whatsapp ? (
@@ -261,8 +303,16 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         <FormLabel>
                           Email <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
+
                         <FormControl>
-                          <Input placeholder="Ex: contato@empresa.com.br" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <Mail className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="contato@empresa.com.br"
+                              {...field}
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            />
+                          </div>
                         </FormControl>
 
                         <FormMessage className="text-destructive text-xs" />
@@ -272,14 +322,21 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
 
                   <FormField
                     control={form.control}
-                    name="website"
+                    name="instagram"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          Website <span className="mt-0.5 text-destructive">*</span>
+                          Instagram <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: https://empresa.com.br" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <FaInstagram className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="@empresa"
+                              {...field}
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            />
+                          </div>
                         </FormControl>
 
                         <FormMessage className="text-destructive text-xs" />
@@ -302,7 +359,14 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         Logradouro <span className="mt-0.5 text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="Ex: Rua, Avenida, etc." {...field} className="rounded-sm placeholder:text-sm" />
+                        <div className="relative">
+                          <MapPin className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                          <Input
+                            placeholder="Rua, Avenida, etc."
+                            {...field}
+                            className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                          />
+                        </div>
                       </FormControl>
 
                       <FormMessage className="text-destructive text-xs" />
@@ -320,7 +384,11 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                           Bairro <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: Centro" {...field} className="rounded-sm placeholder:text-sm" />
+                          <Input
+                            placeholder="Ex: Centro"
+                            {...field}
+                            className="rounded-sm placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                          />
                         </FormControl>
 
                         <FormMessage className="text-destructive text-xs" />
@@ -337,7 +405,19 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                           CEP <span className="mt-0.5 text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Ex: 65010-000" {...field} className="rounded-sm placeholder:text-sm" />
+                          <div className="relative">
+                            <LocateFixed className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="65010-000"
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                              {...field}
+                              value={formatCep(field.value ?? '')}
+                              onChange={e => {
+                                const rawValue = onlyNumbers(e.target.value)
+                                field.onChange(rawValue)
+                              }}
+                            />
+                          </div>
                         </FormControl>
 
                         <FormMessage className="text-destructive text-xs" />
@@ -360,15 +440,14 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         Desconto em % <span className="mt-0.5 text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Ex: 20"
-                          type="number"
-                          min={0}
-                          max={100}
-                          value={field.value}
-                          onChange={e => field.onChange(Number(e.target.value))}
-                          className="w-1/2 rounded-sm placeholder:text-sm"
-                        />
+                        <div className="relative">
+                          <RiPercentFill className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                          <Input
+                            placeholder="20"
+                            {...field}
+                            className="w-1/2 rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                          />
+                        </div>
                       </FormControl>
 
                       <FormMessage className="text-destructive text-xs" />
@@ -388,7 +467,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         <Textarea
                           placeholder="Descreva todos os benefícios oferecidos aos advogados..."
                           {...field}
-                          className="h-28 rounded-sm placeholder:text-sm"
+                          className="h-28 rounded-sm border-border placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                         />
                       </FormControl>
 

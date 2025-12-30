@@ -1,24 +1,56 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { Edit2, Inbox, MapPin, Power, Star } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { z } from 'zod'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { API } from '@/lib/axios'
+import { formatWhatsapp } from '@/utils/format-whatsapp'
+import { HomeTableSkeleton } from './home-skeleton'
+
+interface CompanyProps {
+  companies: {
+    id: string
+    name: string
+    email: string
+    logoUrl: string | null
+    city: { id: string; name: string }
+    category: { id: string; name: string; icon: string }
+    whatsapp: string
+    active: boolean
+    featured: boolean
+  }[]
+  total: number
+}
 
 export function Home() {
-  const data = false
-  const company = {
-    id: 1,
-    name: 'Quem Somos',
-    email: 'contato@quemsomos.com.br',
-    image: '',
-    role: 'USER',
-    inactive: false,
-  }
-  const featured = true
-  const icon = '📚'
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const page = z.coerce.number().parse(searchParams.get('page') || '1')
+  const name = searchParams.get('name') || ''
+  const city = searchParams.get('city') || ''
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['companies', page, name, city],
+    queryFn: async () => {
+      const response = await API.get<CompanyProps>('/api/company/get-all-companies', {
+        params: {
+          page,
+          name,
+          city,
+        },
+      })
+
+      return response.data
+    },
+    staleTime: Number.POSITIVE_INFINITY,
+  })
 
   return (
     <main className="mx-auto max-w-7xl">
@@ -31,7 +63,7 @@ export function Home() {
         <CardContent className="space-y-3 overflow-x-auto">
           <div className="rounded-sm border p-2">
             <Table className="w-full overflow-x-auto text-sm">
-              {data && (
+              {data?.companies.length === 0 && (
                 <TableCaption className="pb-4 text-muted-foreground text-sm">
                   <div className="flex items-center justify-center gap-2">
                     <Inbox className="size-5" />
@@ -56,88 +88,91 @@ export function Home() {
               </TableHeader>
 
               <TableBody>
-                {Array.from({ length: 8 }, (_, index) => (
-                  <TableRow key={index} className="transition-colors duration-200 hover:bg-primary/5">
-                    {/* Company Info */}
-                    <TableCell className="px-6 py-4 font-medium">
-                      <div className="flex items-center gap-3">
-                        <div className="relative h-10 w-10">
-                          <Image
-                            src="/assets/caama.ico"
-                            alt="Empresa"
-                            fill
-                            className="rounded-full object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-foreground">Quem Somos</span>
-                            {featured && <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />}
+                {isLoading && <HomeTableSkeleton />}
+
+                {data &&
+                  data.companies.map(company => (
+                    <TableRow key={company.id} className="transition-colors duration-200 hover:bg-primary/5">
+                      {/* Company Info */}
+                      <TableCell className="px-6 py-4 font-medium">
+                        <div className="flex items-center gap-3">
+                          <div className="relative size-10 rounded-full border border-primary/50">
+                            <Image
+                              src={company.logoUrl || ''}
+                              alt={company.name || 'Empresa'}
+                              fill
+                              className="rounded-full object-cover"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
                           </div>
-                          <span className="text-muted-foreground text-xs">quemsomos@caama.com.br</span>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-foreground">{company.name || 'Empresa'}</span>
+                              {company.featured && <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />}
+                            </div>
+                            <span className="text-muted-foreground text-xs">{company.email}</span>
+                          </div>
                         </div>
-                      </div>
-                    </TableCell>
+                      </TableCell>
 
-                    {/* City */}
-                    <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
-                      <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
-                        <MapPin className="size-3.5" />
-                        <span>São Paulo</span>
-                      </div>
-                    </TableCell>
+                      {/* City */}
+                      <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
+                        <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
+                          <MapPin className="size-3.5" />
+                          <span>{company.city.name}</span>
+                        </div>
+                      </TableCell>
 
-                    {/* Category */}
-                    <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
-                      <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-1 font-medium text-xs text-yellow-800">
-                        {icon && <span className="mr-1.5">{icon}</span>}
-                        Tecnologia
-                      </span>
-                    </TableCell>
+                      {/* Category */}
+                      <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
+                        <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-1 font-medium text-xs text-yellow-800">
+                          {company.category.icon && <span className="mr-1.5">{company.category.icon}</span>}
+                          {company.category.name}
+                        </span>
+                      </TableCell>
 
-                    {/* WhatsApp */}
-                    <TableCell className="px-6 py-4 text-muted-foreground">(11) 99999-9999</TableCell>
+                      {/* WhatsApp */}
+                      <TableCell className="px-6 py-4 text-muted-foreground">{formatWhatsapp(company.whatsapp)}</TableCell>
 
-                    {/* Status */}
-                    <TableCell className="px-6 py-4">
-                      <Badge
-                        className={
-                          company.inactive
-                            ? 'bg-muted text-muted-foreground'
-                            : 'bg-green-500/10 text-emerald-600 dark:text-emerald-400'
-                        }
-                      >
-                        {company.inactive ? 'Inativa' : 'Ativa'}
-                      </Badge>
-                    </TableCell>
-
-                    {/* Actions */}
-                    <TableCell className="px-6 py-4">
-                      <div className="flex items-center justify-center gap-2">
-                        {/* Componente de edição */}
-                        <Button variant="outline" size="icon" className="hover:bg-muted">
-                          <Edit2 className="size-4" />
-                          <span className="sr-only">Editar</span>
-                        </Button>
-
-                        {/* Componente de inativação */}
-                        <Button
-                          variant="outline"
-                          size="icon"
+                      {/* Status */}
+                      <TableCell className="px-6 py-4">
+                        <Badge
                           className={
-                            company.inactive
-                              ? 'text-emerald-600 hover:bg-emerald-500/30'
-                              : 'text-destructive hover:bg-destructive/30'
+                            company.active
+                              ? 'bg-green-500/10 text-emerald-600 dark:text-emerald-400'
+                              : 'bg-muted text-muted-foreground'
                           }
                         >
-                          <Power className="size-4" />
-                          <span className="sr-only">{company.inactive ? 'Ativar' : 'Inativar'}</span>
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          {company.active ? 'Ativa' : 'Inativa'}
+                        </Badge>
+                      </TableCell>
+
+                      {/* Actions */}
+                      <TableCell className="px-6 py-4">
+                        <div className="flex items-center justify-center gap-2">
+                          {/* Componente de edição */}
+                          <Button variant="outline" size="icon" className="hover:bg-muted">
+                            <Edit2 className="size-4" />
+                            <span className="sr-only">Editar</span>
+                          </Button>
+
+                          {/* Componente de inativação */}
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className={
+                              company.active
+                                ? 'text-destructive hover:bg-destructive/30'
+                                : 'text-emerald-600 hover:bg-emerald-500/30'
+                            }
+                          >
+                            <Power className="size-4" />
+                            <span className="sr-only">{company.active ? 'Inativar' : 'Ativar'}</span>
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>

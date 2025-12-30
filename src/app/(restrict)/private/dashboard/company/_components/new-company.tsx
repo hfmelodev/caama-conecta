@@ -1,5 +1,6 @@
 'use client'
 
+import { useQueryClient } from '@tanstack/react-query'
 import { Building2, Hash, LocateFixed, Mail, MapPin, Save } from 'lucide-react'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
@@ -28,6 +29,7 @@ interface NewCompanyProps {
 }
 
 export function NewCompany({ cities, categories }: NewCompanyProps) {
+  const queryClient = useQueryClient()
   const [logoUrl, setLogoUrl] = useState<string | undefined>(undefined)
 
   const form = useNewCompanyForm({
@@ -60,6 +62,8 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
     }
 
     toast.success(response.message)
+
+    queryClient.invalidateQueries({ queryKey: ['companies'] })
 
     setLogoUrl(undefined)
     form.reset()

@@ -1,11 +1,11 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { MapPin } from 'lucide-react'
+import { Inbox, MapPin } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { CitiesSkeleton } from './cities-skeleton'
 import { FilterCities } from './filter-cities'
@@ -77,9 +77,18 @@ export function CitiesContent() {
 
           <div className="rounded-sm border p-2">
             <Table className="w-full overflow-x-auto text-sm">
+              {data?.cities.length === 0 && (
+                <TableCaption className="pb-4 text-muted-foreground text-sm">
+                  <div className="flex items-center justify-center gap-2">
+                    <Inbox className="size-5" />
+                    <p className="text-center text-sm">Nenhuma cidade cadastrada</p>
+                  </div>
+                </TableCaption>
+              )}
+
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[250px] px-6 py-4 md:px-2 md:py-3">Cidade</TableHead>
+                  <TableHead className="w-64 px-6 py-4 md:px-2 md:py-3">Cidade</TableHead>
                   <TableHead className="hidden px-6 py-4 md:table-cell md:px-2 md:py-3">Slug</TableHead>
                   <TableHead className="hidden px-6 py-4 md:table-cell md:px-2 md:py-3">Tipo</TableHead>
                   <TableHead className="px-6 py-4 md:px-2 md:py-3">Status</TableHead>

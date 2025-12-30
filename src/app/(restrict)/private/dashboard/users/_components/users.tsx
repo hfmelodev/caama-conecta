@@ -1,6 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { Inbox } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import z from 'zod'
@@ -76,12 +77,17 @@ export function UserContent() {
           <div className="rounded-sm border p-2">
             <Table className="w-full overflow-x-auto text-sm">
               {data?.users.length === 0 && (
-                <TableCaption className="pb-4 text-muted-foreground text-xs">Nenhum usuário cadastrado</TableCaption>
+                <TableCaption className="pb-4 text-muted-foreground text-sm">
+                  <div className="flex items-center justify-center gap-2">
+                    <Inbox className="size-5" />
+                    <p className="text-center text-sm">Nenhum usuário cadastrado</p>
+                  </div>
+                </TableCaption>
               )}
 
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[250px]">Usuário</TableHead>
+                  <TableHead className="w-64">Usuário</TableHead>
                   <TableHead className="hidden md:table-cell">E-mail</TableHead>
                   <TableHead className="hidden md:table-cell">Função</TableHead>
                   <TableHead className="text-center">Status</TableHead>

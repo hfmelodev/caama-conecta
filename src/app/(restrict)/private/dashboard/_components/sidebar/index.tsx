@@ -68,7 +68,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               )}
             </Button>
           </TooltipTrigger>
-          <TooltipContent className="bg-primary font-medium" side={isCollapsed ? 'right' : 'top'}>
+          <TooltipContent className="bg-linear-to-r from-primary to-sky-600 font-medium" side={isCollapsed ? 'right' : 'top'}>
             <p>{isCollapsed ? 'Expandir' : 'Minimizar'}</p>
           </TooltipContent>
         </Tooltip>
@@ -153,7 +153,9 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                       <LogOut className="size-4" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent className="bg-primary font-medium">Sair</TooltipContent>
+                  <TooltipContent className="bg-linear-to-r from-primary to-sky-600 font-medium" side="right">
+                    Sair
+                  </TooltipContent>
                 </Tooltip>
               </div>
             )}

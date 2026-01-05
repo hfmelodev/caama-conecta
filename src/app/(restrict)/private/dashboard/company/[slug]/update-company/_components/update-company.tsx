@@ -389,6 +389,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                           <MapPin className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
                           <Input
                             placeholder="Rua, Avenida, etc."
+                            autoComplete="off"
                             {...field}
                             className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                           />

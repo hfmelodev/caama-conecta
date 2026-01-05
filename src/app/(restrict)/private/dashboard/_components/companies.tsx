@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Edit2, Inbox, MapPin, Power, Star } from 'lucide-react'
+import { Edit2, Inbox, MapPin, Star } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
@@ -13,6 +13,7 @@ import { API } from '@/lib/axios'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
 import { CompaniesTableSkeleton } from './companies-skeleton'
 import { FilterCompanies } from './filter-company'
+import { InactiveCompany } from './inactive-company'
 import { PaginationCompanies } from './pagination-company'
 
 interface CompanyProps {
@@ -178,18 +179,7 @@ export function Companies() {
                           </Button>
 
                           {/* Componente de inativação */}
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className={
-                              company.active
-                                ? 'text-destructive hover:bg-destructive/30'
-                                : 'text-emerald-600 hover:bg-emerald-500/30'
-                            }
-                          >
-                            <Power className="size-4" />
-                            <span className="sr-only">{company.active ? 'Inativar' : 'Ativar'}</span>
-                          </Button>
+                          <InactiveCompany company={company} />
                         </div>
                       </TableCell>
                     </TableRow>

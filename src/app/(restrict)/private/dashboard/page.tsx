@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
-import { Home } from './_components/home'
+import { Companies } from './_components/companies'
 
 export default async function Dashboard() {
   const session = await auth()
@@ -13,5 +13,5 @@ export default async function Dashboard() {
     redirect('/private/sign-in/blocked')
   }
 
-  return <Home />
+  return <Companies />
 }

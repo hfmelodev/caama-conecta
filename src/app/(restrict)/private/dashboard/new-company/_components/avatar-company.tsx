@@ -15,10 +15,11 @@ type CloudinaryResultProps = {
 type AvatarCompanyProps = {
   logoUrl?: string
   setLogoUrl: (url?: string) => void
+  publicImageId?: string
+  setPublicImageId: (publicImageId?: string) => void
 }
 
-export function AvatarCompany({ logoUrl, setLogoUrl }: AvatarCompanyProps) {
-  const [imagePublicId, setImagePublicId] = useState<string | null>(null)
+export function AvatarCompany({ logoUrl, setLogoUrl, publicImageId, setPublicImageId }: AvatarCompanyProps) {
   const [loadingImage, setLoadingImage] = useState(false)
   const [loadingRemoveImage, setLoadingRemoveImage] = useState(false)
 
@@ -40,7 +41,7 @@ export function AvatarCompany({ logoUrl, setLogoUrl }: AvatarCompanyProps) {
 
       if (urlImage) {
         setLogoUrl(urlImage.url)
-        setImagePublicId(urlImage.public_id)
+        setPublicImageId(urlImage.public_id)
       }
     }
   }
@@ -76,17 +77,17 @@ export function AvatarCompany({ logoUrl, setLogoUrl }: AvatarCompanyProps) {
   }
 
   async function handleRemoveImage() {
-    if (imagePublicId) {
+    if (publicImageId) {
       setLoadingRemoveImage(true)
       await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/company/upload/delete`, {
         method: 'DELETE',
-        body: JSON.stringify({ publicId: imagePublicId }),
+        body: JSON.stringify({ publicId: publicImageId }),
       })
 
       toast.success('Imagem removida com sucesso')
     }
 
-    setImagePublicId(null)
+    setPublicImageId(undefined)
     setLoadingRemoveImage(false)
     setLogoUrl(undefined)
   }

@@ -122,11 +122,12 @@ model Category {
 }
 
 model Company {
-  id          String  @id @default(cuid())
-  name        String
-  slug        String  @unique
-  description String? @db.Text
-  logoUrl     String? @map("logo_url")
+  id            String  @id @default(cuid())
+  name          String
+  slug          String  @unique
+  description   String? @db.Text
+  logoUrl       String? @map("logo_url")
+  publicImageId String? @unique @map("public_image_id")
 
   // Contato
   phone     String?

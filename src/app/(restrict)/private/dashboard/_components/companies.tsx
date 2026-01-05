@@ -11,13 +11,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
-import { HomeTableSkeleton } from './home-skeleton'
+import { CompaniesTableSkeleton } from './companies-skeleton'
+import { FilterCompanies } from './filter-company'
+import { PaginationCompanies } from './pagination-company'
 
 interface CompanyProps {
   companies: {
     id: string
     name: string
     email: string
+    slug: string
     logoUrl: string | null
     city: { id: string; name: string }
     category: { id: string; name: string; icon: string }
@@ -28,7 +31,7 @@ interface CompanyProps {
   total: number
 }
 
-export function Home() {
+export function Companies() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -52,6 +55,17 @@ export function Home() {
     staleTime: Number.POSITIVE_INFINITY,
   })
 
+  function handlePageChange(page: number) {
+    // Cria uma instância de URLSearchParams baseada nos parâmetros de busca atuais
+    const params = new URLSearchParams(searchParams.toString())
+
+    // Atualiza o parâmetro "page" com o novo índice da página
+    params.set('page', page.toString())
+
+    // Atualiza a URL no navegador sem recarregar a página
+    router.push(`?${params.toString()}`)
+  }
+
   return (
     <main className="mx-auto max-w-7xl">
       <Card className="mx-auto mt-8 lg:max-w-7xl">
@@ -61,9 +75,11 @@ export function Home() {
         </CardHeader>
 
         <CardContent className="space-y-3 overflow-x-auto">
+          <FilterCompanies />
+
           <div className="rounded-sm border p-2">
             <Table className="w-full overflow-x-auto text-sm">
-              {data?.companies.length === 0 && (
+              {data && data.companies.length === 0 && (
                 <TableCaption className="pb-4 text-muted-foreground text-sm">
                   <div className="flex items-center justify-center gap-2">
                     <Inbox className="size-5" />
@@ -88,7 +104,7 @@ export function Home() {
               </TableHeader>
 
               <TableBody>
-                {isLoading && <HomeTableSkeleton />}
+                {isLoading && <CompaniesTableSkeleton />}
 
                 {data &&
                   data.companies.map(company => (
@@ -98,7 +114,7 @@ export function Home() {
                         <div className="flex items-center gap-3">
                           <div className="relative size-10 rounded-full border border-primary/50">
                             <Image
-                              src={company.logoUrl || ''}
+                              src={company.logoUrl || '/assets/company-sem-logo.png'}
                               alt={company.name || 'Empresa'}
                               fill
                               className="rounded-full object-cover"
@@ -151,7 +167,12 @@ export function Home() {
                       <TableCell className="px-6 py-4">
                         <div className="flex items-center justify-center gap-2">
                           {/* Componente de edição */}
-                          <Button variant="outline" size="icon" className="hover:bg-muted">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="hover:bg-muted"
+                            onClick={() => router.push(`/private/dashboard/company/${company.slug}/update-company`)}
+                          >
                             <Edit2 className="size-4" />
                             <span className="sr-only">Editar</span>
                           </Button>
@@ -176,6 +197,8 @@ export function Home() {
               </TableBody>
             </Table>
           </div>
+
+          <PaginationCompanies page={page} totalCount={data?.total ?? 0} onPageChange={handlePageChange} />
         </CardContent>
       </Card>
     </main>

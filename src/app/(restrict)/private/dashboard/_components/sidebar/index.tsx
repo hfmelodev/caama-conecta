@@ -1,6 +1,6 @@
 'use client'
 
-import { Building2, Layers, LogOut, User } from 'lucide-react'
+import { Building2, Layers, LogOut, PlusCircle, User } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
@@ -81,17 +81,17 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <nav className="flex flex-col gap-4 overflow-hidden">
               <SidebarLink
                 href="/private/dashboard"
-                icon={<RxDashboard className="size-4" />}
-                label="Home"
+                icon={<Building2 className="size-4" />}
+                label="Emoresas"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
               />
 
               <SidebarLink
-                href="/private/dashboard/company"
-                icon={<Building2 className="size-4" />}
-                label="Empresas"
+                href="/private/dashboard/new-company"
+                icon={<PlusCircle className="size-4" />}
+                label="Nova empresa"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
@@ -166,17 +166,17 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <h3 className="font-semibold text-muted-foreground text-xs uppercase">Administrativo</h3>
               <SidebarLink
                 href="/private/dashboard"
-                icon={<RxDashboard className="size-4" />}
-                label="Home"
+                icon={<Building2 className="size-4" />}
+                label="Empresas"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
               />
 
               <SidebarLink
-                href="/private/dashboard/company"
-                icon={<Building2 className="size-4" />}
-                label="Empresas"
+                href="/private/dashboard/new-company"
+                icon={<PlusCircle className="size-4" />}
+                label="Nova Empresa"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}
@@ -284,17 +284,17 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 <h3 className="ml-4 font-semibold text-muted-foreground text-xs uppercase">Administrativo</h3>
                 <SidebarLink
                   href="/private/dashboard"
-                  icon={<RxDashboard className="size-4" />}
-                  label="Home"
+                  icon={<Building2 className="size-4" />}
+                  label="Empresas"
                   pathname={pathname}
                   isCollapsed={isCollapsed}
                   setIsSheetOpen={setIsSheetOpen}
                 />
 
                 <SidebarLink
-                  href="/private/dashboard/company"
-                  icon={<Building2 className="size-4" />}
-                  label="Empresas"
+                  href="/private/dashboard/new-company"
+                  icon={<PlusCircle className="size-4" />}
+                  label="Nova Empresa"
                   pathname={pathname}
                   isCollapsed={isCollapsed}
                   setIsSheetOpen={setIsSheetOpen}

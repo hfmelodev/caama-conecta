@@ -19,6 +19,7 @@ const newCompanyFormSchema = z.object({
     message: 'A descrição é obrigatória',
   }),
   logoUrl: z.url().optional(),
+  publicImageId: z.string().optional(),
   phone: z.string().trim().optional(),
   whatsapp: z.string().trim().nonempty({
     message: 'O WhatsApp é obrigatório',
@@ -72,6 +73,7 @@ type UseNewCompanyFormType = {
   slug: string
   description: string
   logoUrl?: string
+  publicImageId?: string
   phone?: string
   whatsapp: string
   email: string
@@ -91,6 +93,7 @@ export function useNewCompanyForm({
   slug,
   description,
   logoUrl,
+  publicImageId,
   phone,
   whatsapp,
   email,
@@ -112,6 +115,7 @@ export function useNewCompanyForm({
       slug: slug || '',
       description: description || '',
       logoUrl: logoUrl || '',
+      publicImageId: publicImageId || '',
       phone: phone || '',
       whatsapp: whatsapp || '',
       email: email || '',

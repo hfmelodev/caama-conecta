@@ -18,6 +18,7 @@ const newCompanyFormSchema = z.object({
     .nonempty(),
   description: z.string().trim().nonempty(),
   logoUrl: z.url().optional(),
+  publicImageId: z.string().optional(),
   phone: z.string().trim().optional(),
   whatsapp: z.string().trim().nonempty({
     message: 'O WhatsApp é obrigatório',
@@ -101,7 +102,7 @@ export async function createCompany(data: NewCompanyFormType) {
   try {
     await prisma.company.create({ data })
 
-    revalidatePath('/private/dashboard/company')
+    revalidatePath('/private/dashboard')
 
     return {
       status: 201,

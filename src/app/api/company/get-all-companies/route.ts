@@ -29,6 +29,7 @@ export async function GET(request: NextRequest) {
           name: true,
           email: true,
           logoUrl: true,
+          slug: true,
           city: {
             select: {
               id: true,
@@ -67,7 +68,7 @@ export async function GET(request: NextRequest) {
       }),
     ])
 
-    if (!companies || companies.length === 0) {
+    if (!companies) {
       return NextResponse.json({ error: 'Nenhuma empresa encontrada.' }, { status: 404 })
     }
 

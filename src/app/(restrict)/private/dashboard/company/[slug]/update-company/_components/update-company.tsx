@@ -2,6 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { Building2, Hash, LocateFixed, Mail, MapPin, Save } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 import { ImSpinner2 } from 'react-icons/im'
@@ -14,46 +15,60 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import type { Category, City } from '@/generated/prisma/client'
+import type { Category, City, Company } from '@/generated/prisma/client'
 import { formatCep } from '@/utils/format-cep'
 import { formatPhone } from '@/utils/format-phone'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
 import { onlyNumbers } from '@/utils/only-numbers'
-import { createCompany } from '../_actions/create-company'
-import { AvatarCompany } from './avatar-company'
-import { type NewCompanyFormType, useNewCompanyForm } from './new-company-form'
+import { updateCompany } from '../../../_actions/update-company'
+import { AvatarCompanyUpdate } from './avatar-company-update'
+// import { AvatarCompanyUpdate } from './avatar-company-update'
+import { type UpdateCompanyFormType, useUpdateCompanyForm } from './update-company-form'
 
-interface NewCompanyProps {
+type UpdateCompanyContentProps = {
+  company: Company
   cities: City[]
   categories: Category[]
 }
 
-export function NewCompany({ cities, categories }: NewCompanyProps) {
+export function UpdateCompanyContent({ company, cities, categories }: UpdateCompanyContentProps) {
   const queryClient = useQueryClient()
-  const [logoUrl, setLogoUrl] = useState<string | undefined>(undefined)
+  const router = useRouter()
 
-  const form = useNewCompanyForm({
-    name: '',
-    slug: '',
-    description: '',
-    logoUrl,
-    phone: '',
-    whatsapp: '',
-    email: '',
-    instagram: '',
-    address: '',
-    neighborhood: '',
-    zipCode: '',
-    discount: '',
-    benefits: '',
-    cityId: '',
-    categoryId: '',
+  const [logoUrl, setLogoUrl] = useState(company.logoUrl || '')
+  const [publicImageId, setPublicImageId] = useState(company.publicImageId || '')
+
+  const form = useUpdateCompanyForm({
+    id: company.id,
+    name: company.name || '',
+    slug: company.slug || '',
+    description: company.description || '',
+    logoUrl: logoUrl,
+    publicImageId: publicImageId,
+    phone: company.phone || '',
+    whatsapp: company.whatsapp || '',
+    email: company.email || '',
+    instagram: company.instagram || '',
+    address: company.address || '',
+    neighborhood: company.neighborhood || '',
+    zipCode: company.zipCode || '',
+    discount: company.discount || '',
+    benefits: company.benefits || '',
+    featured: company.featured || false,
+    cityId: company.cityId || '',
+    categoryId: company.categoryId || '',
   })
 
-  async function handleNewCompany(data: NewCompanyFormType) {
-    const response = await createCompany({
+  async function handleUpdateCompany(data: UpdateCompanyFormType) {
+    if (!logoUrl || !publicImageId) {
+      toast.error('Adicione uma imagem da empresa antes de atualizar')
+      return
+    }
+
+    const response = await updateCompany({
       ...data,
       logoUrl,
+      publicImageId,
     })
 
     if (response.error) {
@@ -61,12 +76,13 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
       return
     }
 
+    await queryClient.invalidateQueries({
+      queryKey: ['companies'],
+    })
+
+    router.push('/private/dashboard')
+
     toast.success(response.message)
-
-    queryClient.invalidateQueries({ queryKey: ['companies'] })
-
-    setLogoUrl(undefined)
-    form.reset()
   }
 
   return (
@@ -74,16 +90,22 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
       <Card className="pt-0">
         <CardHeader className="flex flex-col rounded-t-xl bg-linear-to-r from-primary to-sky-600 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-2">
-            <CardTitle className="text-muted text-xl">Nova Empresa Conveniada</CardTitle>
-            <CardDescription className="text-muted">Preencha os dados e adicione a logo da empresa</CardDescription>
+            <CardTitle className="font-semibold text-muted text-xl">{company.name}</CardTitle>
+
+            <CardDescription className="text-muted">Edite os dados ou atualize a logo da empresa selecionada</CardDescription>
           </div>
         </CardHeader>
 
         <CardContent>
           <Form {...form}>
-            <form className="space-y-8" onSubmit={form.handleSubmit(handleNewCompany)}>
+            <form className="space-y-8" onSubmit={form.handleSubmit(handleUpdateCompany)}>
               {/* Avatar Company */}
-              <AvatarCompany logoUrl={logoUrl} setLogoUrl={setLogoUrl} />
+              <AvatarCompanyUpdate
+                logoUrl={logoUrl}
+                setLogoUrl={setLogoUrl}
+                publicImageId={publicImageId}
+                setPublicImageId={setPublicImageId}
+              />
 
               {/* Informações Básicas */}
               <div className="space-y-4 border-border border-t pt-8">
@@ -172,7 +194,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger className="w-full rounded-sm focus-visible:ring-1 focus-visible:ring-primary">
-                              <SelectValue placeholder="Selecione..." />
+                              <SelectValue />
                             </SelectTrigger>
                           </FormControl>
 
@@ -499,12 +521,12 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                 {form.formState.isSubmitting ? (
                   <Button type="submit" className="flex-1 select-none disabled:opacity-100" disabled>
                     <ImSpinner2 className="animate-spin" />
-                    Criando Empresa...
+                    Atualizando Empresa...
                   </Button>
                 ) : (
                   <Button type="submit" className="flex-1">
                     <Save />
-                    Criar Empresa
+                    Atualizar Empresa
                   </Button>
                 )}
               </div>

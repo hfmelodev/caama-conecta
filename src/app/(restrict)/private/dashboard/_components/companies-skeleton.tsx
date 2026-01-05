@@ -1,7 +1,7 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow } from '@/components/ui/table'
 
-export function HomeTableSkeleton() {
+export function CompaniesTableSkeleton() {
   return Array.from({ length: 8 }, (_, index) => (
     <TableRow key={index} className="animate-pulse">
       {/* Company Info */}

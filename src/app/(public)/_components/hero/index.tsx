@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Building2 } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { Squares } from './squares'
@@ -23,11 +23,11 @@ export function Hero() {
             variant="outline"
             className="mx-auto flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 text-primary text-sm md:mx-0 md:justify-center"
           >
-            <Building2 />
+            <Sparkles />
             Benefícios Exclusivos para Advogados
           </Badge>
 
-          <h2 className="text-center font-bold font-calsans text-4xl tracking-tight md:text-left md:text-5xl md:tracking-wide lg:text-6xl">
+          <h2 className="text-center font-bold font-calsans text-4xl tracking-wide md:text-left md:text-5xl md:tracking-wide lg:text-6xl">
             Acesse <span className="text-primary">empresas conveniadas</span> em todo Maranhão
           </h2>
 

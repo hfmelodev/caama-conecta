@@ -1,0 +1,66 @@
+import { ArrowLeft, Building2, MapPin } from 'lucide-react'
+import Link from 'next/link'
+import { getActiveCategories } from '../../_dal/get-active-categories'
+import { findCompaniesByCityId } from '../../_dal/get-companies-by-cityId'
+import { CompanyListClient } from './company-list-client'
+
+type CompaniesByCityProps = {
+  city: {
+    id: string
+    name: string
+    _count: {
+      companies: number
+    }
+  }
+}
+
+export async function CompaniesByCityContent({ city }: CompaniesByCityProps) {
+  const companies = await findCompaniesByCityId({ cityId: city.id })
+
+  return (
+    <div className="min-h-screen bg-primary/5">
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="group">
+              <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />
+            </Link>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-linear-to-r from-primary to-sky-600 text-primary-foreground">
+                <MapPin className="h-5 w-5" />
+              </div>
+              <div>
+                <h1 className="font-bold text-foreground text-lg">{city.name}</h1>
+                <p className="text-muted-foreground text-xs">
+                  {city._count.companies} {city._count.companies === 1 ? 'empresa conveniada' : 'empresas conveniadas'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Content */}
+      <section className="container mx-auto px-4 py-8">
+        {/* Info Banner */}
+        <div className="mb-8 rounded-lg border bg-card p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Building2 className="h-6 w-6" />
+            </div>
+            <div>
+              <h2 className="mb-1 font-semibold text-foreground">Empresas Conveniadas em {city.name}</h2>
+              <p className="text-muted-foreground text-sm">
+                Apresente sua carteira da OAB-MA para garantir os descontos e benefícios exclusivos.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Client Component for Filtering */}
+        <CompanyListClient companies={companies} />
+      </section>
+    </div>
+  )
+}

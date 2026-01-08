@@ -12,10 +12,13 @@ type CompaniesByCityProps = {
       companies: number
     }
   }
+  query: string
+  categories: string | string[]
 }
 
-export async function CompaniesByCityContent({ city }: CompaniesByCityProps) {
-  const companies = await findCompaniesByCityId({ cityId: city.id })
+export async function CompaniesByCityContent({ city, query, categories: rawCategories }: CompaniesByCityProps) {
+  const companies = await findCompaniesByCityId({ cityId: city.id, query, categories: rawCategories })
+  const categories = await getActiveCategories()
 
   return (
     <div className="min-h-screen bg-primary/5">
@@ -59,7 +62,7 @@ export async function CompaniesByCityContent({ city }: CompaniesByCityProps) {
         </div>
 
         {/* Client Component for Filtering */}
-        <CompanyListClient companies={companies} />
+        <CompanyListClient companies={companies} categories={categories} />
       </section>
     </div>
   )

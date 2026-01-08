@@ -3,12 +3,15 @@ import { prisma } from '@/lib/prisma'
 
 type GetCompaniesByCityIdProps = {
   cityId: string
+  query?: string
+  categories?: string | string[]
 }
 
 export type CompanyWithRelations = Prisma.CompanyGetPayload<{
   include: {
     city: {
       select: {
+        slug: true
         name: true
       }
     }
@@ -26,14 +29,26 @@ export type CompanyWithRelations = Prisma.CompanyGetPayload<{
   }
 }>
 
-export async function findCompaniesByCityId({ cityId }: GetCompaniesByCityIdProps): Promise<CompanyWithRelations[]> {
+export async function findCompaniesByCityId({
+  cityId,
+  query,
+  categories: rawCategories,
+}: GetCompaniesByCityIdProps): Promise<CompanyWithRelations[]> {
+  const categories = !rawCategories ? [] : Array.isArray(rawCategories) ? rawCategories : [rawCategories]
+
+  const hasCategories = !!categories.length
+  const hasQuery = !!query?.trim()
+
   return prisma.company.findMany({
     where: {
       cityId,
+      categoryId: hasCategories ? { in: categories } : undefined,
+      OR: hasQuery ? [{ name: { contains: query, mode: 'insensitive' } }] : undefined,
     },
     include: {
       city: {
         select: {
+          slug: true,
           name: true,
         },
       },

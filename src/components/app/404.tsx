@@ -35,7 +35,7 @@ export function Page404() {
 
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
         <Button asChild>
-          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}/private/dashboard`}>Voltar para a Página Inicial</Link>
+          <Link href={`${process.env.NEXT_PUBLIC_BASE_URL}`}>Voltar para a Página Inicial</Link>
         </Button>
       </motion.div>
     </motion.div>

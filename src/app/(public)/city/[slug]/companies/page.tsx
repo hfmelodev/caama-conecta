@@ -6,10 +6,15 @@ type CompaniesByCityPageProps = {
   params: Promise<{
     slug: string
   }>
+  searchParams: Promise<{
+    query: string
+    categories: string | string[]
+  }>
 }
 
-export default async function CompaniesByCity({ params }: CompaniesByCityPageProps) {
+export default async function CompaniesByCity({ params, searchParams }: CompaniesByCityPageProps) {
   const { slug } = await params
+  const { query, categories } = await searchParams
 
   const city = await getCompaniesByCity({ slug })
 
@@ -17,5 +22,5 @@ export default async function CompaniesByCity({ params }: CompaniesByCityPagePro
     notFound()
   }
 
-  return <CompaniesByCityContent city={city} />
+  return <CompaniesByCityContent city={city} query={query} categories={categories} />
 }

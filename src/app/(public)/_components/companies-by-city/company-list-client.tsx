@@ -5,15 +5,21 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
-import type { Category } from '@/generated/prisma/client'
 import { useDebounce } from '@/hooks/use-debounce'
-import type { CompanyWithRelations } from '../../_dal/get-companies-by-cityId'
+import type { CompanyWithRelations } from '../../_dal/get-companies-by-city'
 import { CategoriesList } from './categories-list'
 import { CompanyCard } from './company-card'
 
 type CompanyListClientProps = {
   companies: CompanyWithRelations[]
-  categories: Category[]
+  categories: {
+    id: string
+    name: string
+    icon: string | null
+    _count: {
+      companies: number
+    }
+  }[]
 }
 
 export function CompanyListClient({ companies, categories }: CompanyListClientProps) {

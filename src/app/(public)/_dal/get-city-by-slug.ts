@@ -2,18 +2,16 @@
 
 import { prisma } from '@/lib/prisma'
 
-export async function getActiveCategories() {
-  return prisma.category.findMany({
-    where: {
-      active: true,
-    },
-    orderBy: {
-      name: 'asc',
-    },
+type GetCityBySlugProps = {
+  slug: string
+}
+
+export async function getCityBySlug({ slug }: GetCityBySlugProps) {
+  const city = await prisma.city.findUnique({
+    where: { slug },
     select: {
       id: true,
       name: true,
-      icon: true,
       _count: {
         select: {
           companies: {
@@ -25,4 +23,10 @@ export async function getActiveCategories() {
       },
     },
   })
+
+  if (!city) {
+    return null
+  }
+
+  return city
 }

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { CompaniesByCityContent } from '@/app/(public)/_components/companies-by-city'
-import { getCompaniesByCity } from '@/app/(public)/_dal/get-companies-by-city'
+import { getCityBySlug } from '@/app/(public)/_dal/get-city-by-slug'
 
 type CompaniesByCityPageProps = {
   params: Promise<{
@@ -16,7 +16,7 @@ export default async function CompaniesByCity({ params, searchParams }: Companie
   const { slug } = await params
   const { query, categories } = await searchParams
 
-  const city = await getCompaniesByCity({ slug })
+  const city = await getCityBySlug({ slug })
 
   if (!city) {
     notFound()

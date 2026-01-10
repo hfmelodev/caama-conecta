@@ -3,10 +3,17 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import queryString from 'query-string'
 import { Badge } from '@/components/ui/badge'
-import type { Category } from '@/generated/prisma/client'
+import { Button } from '@/components/ui/button'
 
 type CategoryItemProps = {
-  category: Category
+  category: {
+    name: string
+    id: string
+    icon: string | null
+    _count: {
+      companies: number
+    }
+  }
 }
 
 export function CategoryItem({ category }: CategoryItemProps) {
@@ -38,14 +45,20 @@ export function CategoryItem({ category }: CategoryItemProps) {
   }
 
   return (
-    <Badge
+    <Button
       key={category.id}
+      size="sm"
       variant={isSelected ? 'default' : 'outline'}
-      className="flex shrink-0 cursor-pointer! select-none items-center gap-2 whitespace-nowrap text-xs transition-all duration-300 hover:border-primary/70"
+      className="flex shrink-0 cursor-pointer! select-none items-center gap-2 whitespace-nowrap transition-all duration-300 hover:border-primary/70"
       onClick={handleOnSelectCategories}
     >
       <span>{category.icon}</span>
       <p>{category.name}</p>
-    </Badge>
+      {category._count?.companies > 0 && (
+        <Badge variant="secondary" className="ml-2">
+          {category._count?.companies}
+        </Badge>
+      )}
+    </Button>
   )
 }

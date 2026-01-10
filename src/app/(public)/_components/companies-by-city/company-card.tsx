@@ -1,9 +1,9 @@
-import { Building2, MapPin, Star, Tag } from 'lucide-react'
+import { MapPin, Star, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ShinyButton } from '@/components/ui/shiny-button'
-import type { CompanyWithRelations } from '../../_dal/get-companies-by-cityId'
+import type { CompanyWithRelations } from '../../_dal/get-companies-by-city'
 
 interface CompanyCardProps {
   company: CompanyWithRelations

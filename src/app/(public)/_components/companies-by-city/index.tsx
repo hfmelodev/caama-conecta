@@ -1,7 +1,7 @@
 import { ArrowLeft, Building2, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { getActiveCategories } from '../../_dal/get-active-categories'
-import { findCompaniesByCityId } from '../../_dal/get-companies-by-cityId'
+import { getCompaniesByCity } from '../../_dal/get-companies-by-city'
 import { CompanyListClient } from './company-list-client'
 
 type CompaniesByCityProps = {
@@ -17,7 +17,8 @@ type CompaniesByCityProps = {
 }
 
 export async function CompaniesByCityContent({ city, query, categories: rawCategories }: CompaniesByCityProps) {
-  const companies = await findCompaniesByCityId({ cityId: city.id, query, categories: rawCategories })
+  const companies = await getCompaniesByCity({ cityId: city.id, query, categories: rawCategories })
+
   const categories = await getActiveCategories()
 
   return (

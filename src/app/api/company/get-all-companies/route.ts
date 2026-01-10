@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
           featured: true,
         },
         orderBy: {
-          featured: 'desc', // Ordena por destaque primeiro, depois por data de criação
+          active: 'desc',
         },
         skip: (page - 1) * 8,
         take: 8,

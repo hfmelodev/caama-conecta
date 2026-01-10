@@ -17,6 +17,7 @@ export default async function CompaniesPage() {
 
       <div>
         <Hero />
+
         <section id="empresas" className="bg-linear-to-r from-primary to-sky-600 py-16">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-8 space-y-1">

@@ -1,11 +1,17 @@
 'use client'
 
 import { DraggableScroll } from '@/components/app/draggable-scroll'
-import type { Category } from '@/generated/prisma/client'
 import { CategoryItem } from './category-item'
 
 type CategoriesItemProps = {
-  categories: Category[]
+  categories: {
+    name: string
+    id: string
+    icon: string | null
+    _count: {
+      companies: number
+    }
+  }[]
 }
 
 export function CategoriesList({ categories }: CategoriesItemProps) {

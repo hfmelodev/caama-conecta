@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './styles/globals.css'
 import { Toaster } from 'sonner'
+import { ProgressProviderWrapper } from '@/components/app/progress-provider-wrapper'
 import SessionAuthProvider from '@/components/app/session-auth'
 
 export const metadata: Metadata = {
@@ -20,8 +21,10 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body className="font-geist antialiased">
         <SessionAuthProvider>
-          <Toaster richColors position="top-right" />
-          {children}
+          <ProgressProviderWrapper>
+            <Toaster richColors position="top-right" />
+            {children}
+          </ProgressProviderWrapper>
         </SessionAuthProvider>
       </body>
     </html>

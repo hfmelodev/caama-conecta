@@ -5,10 +5,20 @@ import { ProgressProviderWrapper } from '@/components/app/progress-provider-wrap
 import SessionAuthProvider from '@/components/app/session-auth'
 
 export const metadata: Metadata = {
-  title: 'CaamaConecta',
+  title: 'Caama Conecta',
   description: 'Descontos e benefícios exclusivos para advogados associados à CAAMA.',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Caama Conecta',
+  },
   icons: {
-    icon: '/assets/caama.ico',
+    icon: [
+      { url: '/android-chrome-192x192.png', sizes: '192x192' },
+      { url: '/android-chrome-512x512.png', sizes: '512x512' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
 }
 

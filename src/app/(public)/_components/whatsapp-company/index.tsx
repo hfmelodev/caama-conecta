@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { generateWhatsAppLink } from '@/utils/generate-whatsapp-link'
@@ -19,14 +20,14 @@ export function WhatsappCompany({ companyId, whatsapp, name }: WhatsappCompanyPr
 
   async function handleAddVisitor() {
     await addVisitorInCompany({ companyId })
-
-    window.open(whatsAppLink, '_blank')
   }
 
   return (
-    <Button onClick={handleAddVisitor} className="w-full gap-2" variant="default" size="lg">
-      <FaWhatsapp className="h-5 w-5" />
-      Entrar em contato via WhatsApp
+    <Button onClick={handleAddVisitor} className="w-full" variant="default" size="lg">
+      <Link href={whatsAppLink} target="_blank" className="flex items-center gap-2">
+        <FaWhatsapp />
+        Entrar em contato via WhatsApp
+      </Link>
     </Button>
   )
 }

@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import PWA from 'next-pwa'
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -17,5 +18,9 @@ const nextConfig: NextConfig = {
     qualities: [50, 75, 100],
   },
 }
+
+PWA({
+  dest: 'public',
+})
 
 export default nextConfig

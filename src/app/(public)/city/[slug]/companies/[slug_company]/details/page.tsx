@@ -1,4 +1,5 @@
 import { ArrowLeft, ExternalLink, Gift, Mail, MapPin, Navigation, Phone, Star, Tag } from 'lucide-react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FaInstagram } from 'react-icons/fa'
@@ -11,7 +12,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { formatPhone } from '@/utils/format-phone'
-import { generateWhatsAppLink } from '@/utils/generate-whatsapp-link'
+
+export const metadata: Metadata = {
+  title: `Detalhes | Caama Conecta`,
+}
 
 type CompanyDetailsPageProps = {
   params: Promise<{

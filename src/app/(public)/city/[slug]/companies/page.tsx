@@ -1,6 +1,11 @@
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { CompaniesByCityContent } from '@/app/(public)/_components/companies-by-city'
 import { getCityBySlug } from '@/app/(public)/_dal/get-city-by-slug'
+
+export const metadata: Metadata = {
+  title: `Empresas | Caama Conecta`,
+}
 
 type CompaniesByCityPageProps = {
   params: Promise<{

@@ -27,7 +27,7 @@ export function Hero() {
             Benefícios Exclusivos para Advogados
           </Badge>
 
-          <h2 className="text-center font-bold font-calsans text-4xl tracking-wide md:text-left md:text-5xl md:tracking-wide lg:text-6xl">
+          <h2 className="text-center font-bold font-calsans text-4xl tracking-tight md:text-left md:text-5xl md:tracking-wide lg:text-6xl">
             Acesse <span className="text-primary">empresas conveniadas</span> em todo Maranhão
           </h2>
 

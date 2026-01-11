@@ -1,7 +1,8 @@
 import { ArrowLeft, ExternalLink, Gift, Mail, MapPin, Navigation, Phone, Star, Tag } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { FaInstagram, FaWhatsapp } from 'react-icons/fa'
+import { FaInstagram } from 'react-icons/fa'
+import { WhatsappCompany } from '@/app/(public)/_components/whatsapp-company'
 import { getCompanyBySlug } from '@/app/(public)/_dal/get-company-by-slug'
 import { Badge } from '@/components/ui/badge'
 import { BorderBeam } from '@/components/ui/border-beam'
@@ -29,18 +30,13 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
     notFound()
   }
 
-  const whatsappLink = generateWhatsAppLink({
-    whatsapp: company.whatsapp,
-    companyName: company.name,
-  })
-
   return (
     <div className="min-h-screen bg-primary/5">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
-            <Link href={`/city/buriticupu/companies`} className="group">
+            <Link href={`/city/${company.city.slug}/companies`} className="group">
               <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />
             </Link>
             <div>
@@ -114,13 +110,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
               <div>
                 <h3 className="mb-4 font-semibold text-foreground">Informações de Contato</h3>
                 <div className="space-y-3">
-                  {/* WhatsApp - Primary CTA */}
-                  <Link href={whatsappLink} target="_blank" className="block">
-                    <Button className="w-full gap-2" variant="default" size="lg">
-                      <FaWhatsapp className="h-5 w-5" />
-                      Entrar em contato via WhatsApp
-                    </Button>
-                  </Link>
+                  <WhatsappCompany companyId={company.id} whatsapp={company.whatsapp} name={company.name} />
 
                   {/* Phone */}
                   {company.phone && (

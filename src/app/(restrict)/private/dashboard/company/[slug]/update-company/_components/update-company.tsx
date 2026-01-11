@@ -358,7 +358,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                           <div className="relative">
                             <FaInstagram className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
                             <Input
-                              placeholder="@empresa"
+                              placeholder="vida-plena"
                               {...field}
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
                             />

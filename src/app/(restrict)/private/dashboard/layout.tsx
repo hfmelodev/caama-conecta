@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { SidebarDashboard } from './_components/sidebar'
 
 export const metadata: Metadata = {
-  title: 'Home - CaamaConecta',
+  title: 'Empresas | Caama Conecta',
 }
 
 export default async function DashboardLayout({

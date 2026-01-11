@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { BorderBeam } from '@/components/ui/border-beam'
-import { Button } from '@/components/ui/button'
+import { Shared } from './shared'
 
 export function Header() {
+  const shareUrl = `${process.env.NEXT_PUBLIC_BASE_URL}`
+
   return (
     <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md">
       <div className="container mx-auto p-4">
@@ -12,20 +13,7 @@ export function Header() {
             <Image src="/assets/logo-caama-azul.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
           </Link>
 
-          <Button asChild variant="outline">
-            <Link href="#empresas" className="relative flex items-center gap-2 overflow-hidden">
-              <h2 className="font-semibold text-primary md:font-medium">Empresas parceiras</h2>
-              <span className="animate-wave md:text-xl">👋</span>
-              <BorderBeam duration={6} size={100} className="from-transparent via-destructive/70 to-transparent" />
-              <BorderBeam
-                duration={6}
-                delay={3}
-                size={100}
-                borderWidth={1}
-                className="from-transparent via-primary/70 to-transparent"
-              />
-            </Link>
-          </Button>
+          <Shared url={shareUrl} />
         </div>
       </div>
     </header>

@@ -1,4 +1,4 @@
-import { ArrowLeft, ExternalLink, Gift, Mail, MapPin, Navigation, Phone, Star, Tag } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Gift, Mail, MapPin, Navigation, Phone, Star, Tag, UserRound, UsersRound } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -75,11 +75,26 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 </div>
 
                 {/* {company.category && ( */}
-                <Badge variant="outline" className="gap-1.5">
-                  <Tag className="h-3.5 w-3.5" />
-                  {company.category.name}
-                </Badge>
-                {/* )} */}
+                <div className="flex flex-col items-center gap-3">
+                  <Badge variant="outline" className="gap-1.5">
+                    <Tag className="h-3.5 w-3.5" />
+                    {company.category.name}
+                  </Badge>
+
+                  <span className="flex items-center gap-1 text-muted-foreground text-xs">
+                    {company.visitors === 1 ? (
+                      <>
+                        <UserRound className="h-3.5 w-3.5" />
+                        {company.visitors} visitante
+                      </>
+                    ) : (
+                      <>
+                        <UsersRound className="mb-0.5 h-3.5 w-3.5" />
+                        {company.visitors} visitantes
+                      </>
+                    )}
+                  </span>
+                </div>
               </div>
             </CardHeader>
 

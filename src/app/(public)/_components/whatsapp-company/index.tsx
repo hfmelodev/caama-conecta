@@ -23,11 +23,11 @@ export function WhatsappCompany({ companyId, whatsapp, name }: WhatsappCompanyPr
   }
 
   return (
-    <Button onClick={handleAddVisitor} className="w-full" variant="default" size="lg">
-      <Link href={whatsAppLink} target="_blank" className="flex items-center gap-2">
+    <Link href={whatsAppLink} passHref target="_blank">
+      <Button onClick={handleAddVisitor} className="w-full" size="lg">
         <FaWhatsapp />
         Entrar em contato via WhatsApp
-      </Link>
-    </Button>
+      </Button>
+    </Link>
   )
 }

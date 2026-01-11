@@ -1,4 +1,4 @@
-import { MapPin, Star, Tag } from 'lucide-react'
+import { MapPin, Star, Tag, UserRound, UsersRound } from 'lucide-react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -22,12 +22,27 @@ export function CompanyCard({ company }: CompanyCardProps) {
                 {company.city.name}
               </CardDescription>
             </div>
-            {company.featured && (
-              <Badge variant="secondary" className="shrink-0">
-                <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
-                Destaque
-              </Badge>
-            )}
+            <div className="flex flex-col items-center gap-3">
+              {company.featured && (
+                <Badge variant="secondary" className="shrink-0">
+                  <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
+                  Destaque
+                </Badge>
+              )}
+              <span className="flex items-center gap-1 text-muted-foreground text-xs">
+                {company.visitors === 1 ? (
+                  <>
+                    <UserRound className="h-3.5 w-3.5" />
+                    {company.visitors} visitante
+                  </>
+                ) : (
+                  <>
+                    <UsersRound className="mb-0.5 h-3.5 w-3.5" />
+                    {company.visitors} visitantes
+                  </>
+                )}
+              </span>
+            </div>
           </div>
 
           {company.category && (

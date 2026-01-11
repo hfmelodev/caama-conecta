@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Page404 } from '@/components/app/404'
 
 export const metadata: Metadata = {
-  title: '404 | Caama Conecta',
+  title: 'Página não encontrada | Caama Conecta',
 }
 
 export default function NotFound() {

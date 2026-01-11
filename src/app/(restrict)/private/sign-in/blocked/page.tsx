@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { auth } from '@/lib/auth'
 
 export const metadata: Metadata = {
-  title: 'Bloqueado | CaamaConecta',
+  title: 'Acesso Bloqueado | Caama Conecta',
 }
 
 dayjs.extend(utc)

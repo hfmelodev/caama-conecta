@@ -6,7 +6,7 @@ import { auth } from '@/lib/auth'
 import { SignInWithGoogle } from './_components/sign-in-with-google'
 
 export const metadata: Metadata = {
-  title: 'Login | CaamaConecta',
+  title: 'Login | Caama Conecta',
 }
 
 export default async function SignIn() {

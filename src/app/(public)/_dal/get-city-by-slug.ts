@@ -12,6 +12,7 @@ export async function getCityBySlug({ slug }: GetCityBySlugProps) {
     select: {
       id: true,
       name: true,
+      slug: true,
       _count: {
         select: {
           companies: {

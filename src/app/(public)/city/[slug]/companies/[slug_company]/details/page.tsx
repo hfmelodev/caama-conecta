@@ -106,14 +106,14 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
             <div className="space-y-8 lg:col-span-2">
               {/* Discount Banner */}
               {company.discount && (
-                <div className="overflow-hidden rounded-2xl border border-amber-200 bg-linear-to-r from-amber-50 to-orange-50 p-6">
+                <div className="overflow-hidden rounded-2xl border border-emerald-200 bg-linear-to-r from-emerald-50 to-emerald-50 p-6 shadow-xl">
                   <div className="flex items-start gap-4">
-                    <div className="rounded-xl bg-linear-to-br from-amber-400 to-orange-500 p-3 shadow-lg">
+                    <div className="rounded-xl bg-linear-to-br from-emerald-500 to-emerald-600 p-3 shadow-lg">
                       <Gift className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-amber-900/70 text-sm">Exclusivo para Advogados Associados</p>
-                      <p className="mt-1 font-bold text-amber-700 text-xl">{company.discount}% de desconto</p>
+                      <p className="font-medium text-emerald-600/70 text-sm">Exclusivo para Advogados Associados</p>
+                      <p className="mt-1 font-bold text-emerald-600 text-xl">{company.discount}% de desconto</p>
                     </div>
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 <div>
                   <h2 className="font-semibold text-foreground text-lg">Benefícios</h2>
                   <div className="mt-3 flex items-start gap-3 rounded-xl border bg-card/80 p-4">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-green-500" />
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
                     <p className="text-pretty text-muted-foreground leading-relaxed">{company.benefits}</p>
                   </div>
                 </div>
@@ -151,7 +151,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                       <p className="text-foreground text-sm">{company.address}</p>
                       <p className="text-muted-foreground text-sm">{company.neighborhood}</p>
                       <p className="text-muted-foreground text-sm">Cep: {formatCep(company.zipCode)}</p>
-                      <p className="mt-1 font-medium text-primary text-sm">{company.city.name} - MA</p>
+                      <p className="mt-1 font-medium text-primary/70 text-sm">{company.city.name} - MA</p>
                     </div>
                   </div>
                 </div>
@@ -167,8 +167,8 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 <WhatsappCompany companyId={company.id} whatsapp={company.whatsapp} name={company.name} />
 
                 {company.featured && (
-                  <Badge className="absolute top-2 right-2 bg-amber-500/10 text-amber-600 hover:bg-amber-500/20">
-                    <Star className="fill-muted" />
+                  <Badge variant="secondary" className="absolute top-2 right-2 shrink-0">
+                    <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
                     Destaque
                   </Badge>
                 )}
@@ -225,7 +225,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
               </div>
 
               {/* Important Notice */}
-              <div className="rounded-lg border-primary/70 border-l-4 bg-primary/5 p-4">
+              <div className="rounded-lg border-primary border-l-4 bg-primary/5 p-4">
                 <p className="text-foreground text-sm">
                   <strong>Importante:</strong> Apresente sua carteira da OAB para garantir os descontos e benefícios exclusivos
                   desta empresa conveniada.

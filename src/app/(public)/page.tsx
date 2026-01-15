@@ -39,7 +39,7 @@ export default async function CompaniesPage() {
               {cities.map(city => (
                 <AnimatedCard key={city.id}>
                   <Link href={`/city/${city.slug}/companies`}>
-                    <Card className="group relative overflow-hidden transition-all hover:shadow-lg">
+                    <Card className="group hover:-translate-y-1.25 relative overflow-hidden transition-all duration-300 hover:border-muted/70 hover:shadow-lg">
                       <div className="absolute top-3 right-3 z-10">
                         <div className="flex size-8 items-center justify-center rounded-full bg-primary/10 transition-all duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:bg-primary">
                           <ExternalLink

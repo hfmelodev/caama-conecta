@@ -1,7 +1,5 @@
-import { v2 as cloudinary } from 'cloudinary'
 import { type NextRequest, NextResponse } from 'next/server'
-
-import '@/lib/cloudinary'
+import { createClient } from '@/lib/supabase/client'
 
 export async function DELETE(request: NextRequest) {
   const { publicId } = await request.json()
@@ -10,7 +8,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'publicId obrigatório' }, { status: 400 })
   }
 
-  await cloudinary.uploader.destroy(publicId)
+  await createClient().storage.from('companies').remove(publicId)
 
   return NextResponse.json({ success: true })
 }

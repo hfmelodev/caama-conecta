@@ -7,7 +7,7 @@ import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
-type CloudinaryResultProps = {
+type UploadResultProps = {
   url: string
   public_id: string
 }
@@ -46,7 +46,7 @@ export function AvatarCompany({ logoUrl, setLogoUrl, publicImageId, setPublicIma
     }
   }
 
-  async function handleUploadImage(image: File): Promise<CloudinaryResultProps | null> {
+  async function handleUploadImage(image: File): Promise<UploadResultProps | null> {
     try {
       toast.warning('Aguarde! Carregando imagem...')
 
@@ -63,7 +63,7 @@ export function AvatarCompany({ logoUrl, setLogoUrl, publicImageId, setPublicIma
         return null
       }
 
-      const data: CloudinaryResultProps = await response.json()
+      const data: UploadResultProps = await response.json()
 
       setLoadingImage(false)
 

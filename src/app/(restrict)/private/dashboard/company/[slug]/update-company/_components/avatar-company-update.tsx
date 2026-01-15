@@ -16,7 +16,7 @@ type AvatarCompanyUpdateProps = {
   setPublicImageId: (publicImageId: string) => void
 }
 
-type CloudinaryResultProps = {
+type UploadResultProps = {
   url: string
   public_id: string
 }
@@ -50,7 +50,7 @@ export function AvatarCompanyUpdate({ logoUrl, publicImageId, setLogoUrl, setPub
     }
   }
 
-  async function handleUploadImage(image: File): Promise<CloudinaryResultProps | null> {
+  async function handleUploadImage(image: File): Promise<UploadResultProps | null> {
     try {
       toast.warning('Aguarde! Carregando imagem...')
 
@@ -67,7 +67,7 @@ export function AvatarCompanyUpdate({ logoUrl, publicImageId, setLogoUrl, setPub
         return null
       }
 
-      const data: CloudinaryResultProps = await response.json()
+      const data: UploadResultProps = await response.json()
 
       setLoadingImage(false)
 

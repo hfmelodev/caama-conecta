@@ -9,13 +9,11 @@ import { addVisitorInCompany } from '../../_actions/add-visitor-in-company'
 type WhatsappCompanyProps = {
   companyId: string
   whatsapp: string
-  name: string
 }
 
-export function WhatsappCompany({ companyId, whatsapp, name }: WhatsappCompanyProps) {
+export function WhatsappCompany({ companyId, whatsapp }: WhatsappCompanyProps) {
   const whatsAppLink = generateWhatsAppLink({
     whatsapp: whatsapp,
-    companyName: name,
   })
 
   async function handleAddVisitor() {

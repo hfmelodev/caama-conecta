@@ -76,8 +76,8 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 </div>
 
                 {/* Company Information */}
-                <div className="flex-1 pb-2">
-                  <div className="flex flex-wrap items-center gap-2">
+                <div className="flex-1 md:pb-2">
+                  <div className="flex flex-wrap items-center gap-2 pb-2">
                     <h1 className="font-bold text-2xl text-foreground tracking-tight sm:text-3xl lg:text-4xl">{company.name}</h1>
                   </div>
 
@@ -164,7 +164,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
               <div className="relative rounded-2xl border bg-card p-6">
                 <h3 className="font-semibold text-foreground">Entre em contato</h3>
                 <p className="mt-1 mb-3 text-muted-foreground text-sm">Fale diretamente com a empresa</p>
-                <WhatsappCompany companyId={company.id} whatsapp={company.whatsapp} name={company.name} />
+                <WhatsappCompany companyId={company.id} whatsapp={company.whatsapp} />
 
                 {company.featured && (
                   <Badge variant="secondary" className="absolute top-2 right-2 shrink-0">

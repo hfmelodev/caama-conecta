@@ -9,7 +9,6 @@
   },
   "scripts": {
     "dev": "next dev",
-    "postinstall": "pnpm prisma migrate deploy && pnpm prisma generate && pnpm prisma db seed",
     "build": "next build",
     "start": "next start",
     "lint": "biome check",

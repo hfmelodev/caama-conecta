@@ -1,4 +1,1 @@
-## Ajustes na aplicação
-
-[] - Retorna a quantidade de empresas por categoria no contador somente se existir as empresas naquele cidade
-[] - Colocar background azul no painel dos detalhes da empresa
+    "postinstall": "pnpm prisma migrate deploy && pnpm prisma generate && pnpm prisma db seed",

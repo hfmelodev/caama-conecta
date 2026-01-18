@@ -38,18 +38,12 @@ export async function GET(request: NextRequest) {
     ])
 
     if (!users) {
-      return {
-        status: 404,
-        message: 'Usuários não encontrados.',
-      }
+      return NextResponse.json({ error: 'Usuários não encontrados.' }, { status: 404 })
     }
 
     return NextResponse.json({ users, total }, { status: 200 })
   } catch (err) {
     console.log(err)
-    return {
-      status: 500,
-      message: 'Houve um erro ao obter todos os usuários.',
-    }
+    return NextResponse.json({ error: 'Houve um erro ao obter todos os usuários.' }, { status: 500 })
   }
 }

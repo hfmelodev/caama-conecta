@@ -31,18 +31,12 @@ export async function GET(request: NextRequest) {
     ])
 
     if (!categories) {
-      return {
-        status: 404,
-        error: 'Categorias não encontradas.',
-      }
+      return NextResponse.json({ error: 'Categorias não encontradas.' }, { status: 404 })
     }
 
     return NextResponse.json({ categories, total }, { status: 200 })
   } catch (err) {
     console.log(err)
-    return {
-      status: 500,
-      error: 'Houve um erro ao obter todos os   usuários.',
-    }
+    return NextResponse.json({ error: 'Houve um erro ao obter todas as categorias.' }, { status: 500 })
   }
 }

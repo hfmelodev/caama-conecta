@@ -32,18 +32,12 @@ export async function GET(request: NextRequest) {
     ])
 
     if (!cities) {
-      return {
-        status: 404,
-        message: 'Cidades não encontradas.',
-      }
+      return NextResponse.json({ error: 'Cidades não encontradas.' }, { status: 404 })
     }
 
     return NextResponse.json({ cities, total }, { status: 200 })
   } catch (err) {
     console.log(err)
-    return {
-      status: 500,
-      message: 'Houve um erro ao obter todos os usuários.',
-    }
+    throw NextResponse.json({ error: 'Erro ao buscar cidades' }, { status: 500 })
   }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Upload, X } from 'lucide-react'
+import { Trash2, Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import { type ChangeEvent, useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'
@@ -121,12 +121,17 @@ export function AvatarCompanyUpdate({ logoUrl, publicImageId, setLogoUrl, setPub
 
           <Button
             type="button"
-            variant="ghost"
+            title="Remover"
+            variant="destructive"
             size="icon-sm"
-            className="absolute top-2 right-2 rounded-full bg-destructive p-1 text-destructive-foreground hover:bg-destructive/90"
+            className="absolute top-2 right-2 p-1"
             onClick={() => handleRemoveImage(publicImageId)}
           >
-            {loadingRemoveImage ? <ImSpinner2 className="size-5 animate-spin text-muted" /> : <X className="size-5 text-muted" />}
+            {loadingRemoveImage ? (
+              <ImSpinner2 className="size-5 animate-spin text-muted" />
+            ) : (
+              <Trash2 className="size-5 text-muted" />
+            )}
           </Button>
         </div>
       ) : (

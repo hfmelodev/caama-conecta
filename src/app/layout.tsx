@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
 import './styles/globals.css'
+
+import type { Metadata } from 'next'
 import { Toaster } from 'sonner'
 import { ProgressProviderWrapper } from '@/components/app/progress-provider-wrapper'
 import SessionAuthProvider from '@/components/app/session-auth'
-import { Footer } from './(public)/_components/footer'
 
 export const metadata: Metadata = {
   title: 'Caama Conecta',

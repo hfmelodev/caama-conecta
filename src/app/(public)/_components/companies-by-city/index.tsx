@@ -21,7 +21,7 @@ type CompaniesByCityProps = {
 export async function CompaniesByCityContent({ city, query, categories: rawCategories }: CompaniesByCityProps) {
   const companies = await getCompaniesByCity({ cityId: city.id, query, categories: rawCategories })
 
-  const categories = await getActiveCategories()
+  const categories = await getActiveCategories(city.slug)
 
   return (
     <div className="min-h-screen bg-primary/5">

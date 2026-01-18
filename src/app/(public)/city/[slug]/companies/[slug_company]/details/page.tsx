@@ -58,6 +58,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
         <section className="relative">
           <div className="relative aspect-21/9 w-full overflow-hidden bg-muted sm:aspect-8/1 lg:aspect-9/1">
             <Squares />
+            {/* <Image src="/assets/acordo.png" alt={`Imagem de ${company.name}`} fill className="object-cover" /> */}
             <div className="absolute inset-0 bg-linear-to-t from-background via-background/20 to-transparent" />
           </div>
 

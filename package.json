@@ -12,7 +12,6 @@
     "build": "prisma generate && pnpm prisma migrate deploy && next build",
     "start": "next start",
     "lint": "biome check",
-    "postinstall": "prisma generate",
     "format": "biome format --write",
     "prisma:dev": "pnpm prisma migrate dev && pnpm prisma generate"
   },

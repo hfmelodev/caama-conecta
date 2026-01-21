@@ -1,0 +1,11 @@
+[setup]
+nodejs = "20"
+
+[phases.install]
+cmds = ["npm install -g pnpm", "pnpm install"]
+
+[phases.build]
+cmds = ["pnpm build"]
+
+[start]
+cmd = "pnpm start"

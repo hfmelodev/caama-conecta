@@ -67,6 +67,7 @@ export async function createCity({ name, slug, isThirst }: NewCityFormType) {
     })
 
     revalidatePath('/private/dashboard/city')
+    revalidatePath('/')
 
     return {
       status: 201,

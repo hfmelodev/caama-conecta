@@ -1,5 +1,5 @@
 [setup]
-nodejs = "20"
+nodejs = "24"
 
 [phases.install]
 cmds = ["npm install -g pnpm", "pnpm install"]

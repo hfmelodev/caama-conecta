@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import type { City } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 
@@ -17,8 +16,6 @@ export async function getActiveCities(): Promise<City[]> {
   if (!cities) {
     return []
   }
-
-  revalidatePath('/city')
 
   return cities
 }

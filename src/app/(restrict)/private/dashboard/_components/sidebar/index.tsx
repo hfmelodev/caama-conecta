@@ -36,14 +36,14 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
     <main className="flex min-h-screen w-full">
       {/* Menu Sidebar Desktop */}
       <aside
-        className={cn('flex h-full flex-col border-r bg-background p-2 transition-all duration-300', {
+        className={cn('flex h-full flex-col border-r bg-background p-4 transition-all duration-300', {
           'w-20': isCollapsed,
           'w-68': !isCollapsed,
           'hidden md:fixed md:flex md:items-center': true,
         })}
       >
         {isCollapsed ? (
-          <Image src="/assets/logo-caama-azul-cut.png" alt="Logo CAAMA" width={50} height={50} quality={100} priority />
+          <Image src="/assets/caama-2025.png" alt="Logo CAAMA" width={50} height={50} quality={100} priority />
         ) : (
           <Image src="/assets/logo-caama-2025.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
         )}

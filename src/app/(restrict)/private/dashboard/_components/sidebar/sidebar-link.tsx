@@ -18,7 +18,7 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
         <button
           type="button"
           className={cn(
-            'flex w-full items-center gap-2 rounded-md border px-3 py-2 text-primary text-sm transition-colors hover:bg-linear-to-r hover:from-primary hover:to-sky-600 hover:text-primary-foreground',
+            'flex w-full items-center gap-2 rounded-md border px-4 py-2 text-primary text-sm transition-colors hover:bg-linear-to-r hover:from-primary hover:to-sky-600 hover:text-primary-foreground',
             {
               'bg-linear-to-r from-primary to-sky-600 text-muted': pathname === href,
             }
@@ -33,7 +33,7 @@ export function SidebarLink({ href, icon, label, pathname, isCollapsed, setIsShe
           <TooltipTrigger asChild>
             <span
               className={cn(
-                'flex items-center gap-2 rounded-md border px-3 py-2 text-primary transition-colors hover:bg-linear-to-r hover:from-primary hover:to-sky-600 hover:text-primary-foreground',
+                'flex size-9 items-center justify-center gap-2 rounded-md border text-primary transition-colors hover:bg-linear-to-r hover:from-primary hover:to-sky-600 hover:text-primary-foreground',
                 {
                   'bg-linear-to-r from-primary to-sky-600 text-muted': pathname === href,
                 }

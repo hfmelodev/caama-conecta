@@ -27,7 +27,7 @@ export async function CompaniesByCityContent({ city, query, categories: rawCateg
     <div className="min-h-screen bg-primary/5">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-sm">
-        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+        <div className="container mx-auto flex items-center justify-between py-2">
           <div className="flex items-center gap-4">
             <Link href="/" className="group">
               <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />

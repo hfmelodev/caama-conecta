@@ -28,7 +28,8 @@ export function Hero() {
           </Badge>
 
           <h2 className="text-center font-bold font-calsans text-4xl tracking-tight md:text-left md:text-5xl md:tracking-wide lg:text-6xl">
-            Acesse <span className="text-primary">empresas conveniadas</span> em todo Maranhão
+            Acesse <span className="text-primary">empresas</span> <span className="text-red-800">conveniadas</span> em todo
+            Maranhão
           </h2>
 
           <p className="max-w-2xl text-pretty text-center text-base text-muted-foreground md:text-left md:text-lg">
@@ -44,10 +45,10 @@ export function Hero() {
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
         >
           <Image
-            src="/assets/hero-connection.svg"
+            src="/assets/hero.svg"
             alt="Foto de conexão entre advogados e empresas"
-            width={350}
-            height={400}
+            width={450}
+            height={450}
             className="object-contain"
             quality={100}
             priority

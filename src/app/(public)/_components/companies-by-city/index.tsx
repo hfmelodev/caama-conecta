@@ -27,7 +27,7 @@ export async function CompaniesByCityContent({ city, query, categories: rawCateg
     <div className="min-h-screen bg-primary/5">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-sm">
-        <div className="container mx-auto flex items-center justify-between py-2">
+        <div className="container mx-auto flex items-center justify-between px-4 py-2">
           <div className="flex items-center gap-4">
             <Link href="/" className="group">
               <ArrowLeft className="group-hover:-translate-x-1 mr-2 size-4 text-foreground/80 transition-transform duration-200" />
@@ -54,7 +54,7 @@ export async function CompaniesByCityContent({ city, query, categories: rawCateg
         {/* Info Banner */}
         <div className="mb-8 rounded-lg bg-linear-to-r from-primary to-sky-600 p-6 text-primary-foreground">
           <div className="flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-muted/10 text-muted">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-muted bg-muted/10 text-muted">
               <Building2 className="h-6 w-6" />
             </div>
             <div>

@@ -39,7 +39,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
     <div className="min-h-screen bg-primary/5">
       {/* Header */}
       <header className="fixed top-0 right-0 left-0 z-50 border-b bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between py-2">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 py-2">
           <Link
             href={`/city/${company.city.slug}/companies`}
             className="group flex items-center gap-2 font-medium text-muted-foreground text-sm transition-colors hover:text-foreground"

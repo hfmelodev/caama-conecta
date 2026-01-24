@@ -113,7 +113,7 @@ export function Companies() {
                       {/* Company Info */}
                       <TableCell className="px-6 py-4 font-medium">
                         <div className="flex items-center gap-3">
-                          <div className="relative size-10 rounded-full border border-primary/50">
+                          <div className="relative size-10 rounded-full border">
                             <Image
                               src={company.logoUrl || '/assets/company-sem-logo.png'}
                               alt={company.name || 'Empresa'}

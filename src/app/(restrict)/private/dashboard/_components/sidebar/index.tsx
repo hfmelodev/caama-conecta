@@ -264,7 +264,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-50 border-b bg-card/80 backdrop-blur-md md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <div className="flex items-center justify-between px-4 py-2">
-              <Image src="/assets/logo-caama-azul.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
+              <Image src="/assets/logo-caama-2025.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
 
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon" className="md:hidden" onClick={() => setIsCollapsed(false)}>
@@ -276,7 +276,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <SheetContent side="right">
               <SheetHeader className="border-b bg-card/80 p-2">
                 <SheetTitle>
-                  <Image src="/assets/logo-caama-azul.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
+                  <Image src="/assets/logo-caama-2025.png" alt="Logo CAAMA" width={190} height={50} quality={100} priority />
                 </SheetTitle>
                 <SheetDescription className="sr-only" />
               </SheetHeader>

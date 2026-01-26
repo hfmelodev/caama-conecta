@@ -57,6 +57,7 @@ export async function activeCity({ id }: ActiveCityFormType) {
     })
 
     revalidatePath('/private/dashboard/city')
+    revalidatePath('/')
 
     return {
       status: 200,

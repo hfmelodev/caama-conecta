@@ -57,6 +57,7 @@ export async function inactiveCity({ id }: InactiveCityFormType) {
     })
 
     revalidatePath('/private/dashboard/city')
+    revalidatePath('/')
 
     return {
       status: 200,

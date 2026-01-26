@@ -3,6 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Power } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,38 +27,44 @@ type InactiveCategoryProps = {
 }
 
 export function InactiveCategory({ category }: InactiveCategoryProps) {
+  const [isLoading, setIsLoading] = useState(false)
+
   const queryClient = useQueryClient()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   async function handleInactiveCategory(id: string) {
+    setIsLoading(true)
     const response = await inactiveCategory({ id })
 
     if (response.error) {
       toast.error(response.error)
+      setIsLoading(false)
       return
     }
 
     await queryClient.invalidateQueries({ queryKey: ['categories'] })
 
-    setIsDialogOpen(false)
-
     toast.success(response.message)
+    setIsDialogOpen(false)
+    setIsLoading(false)
   }
 
   async function handleActiveCategory(id: string) {
+    setIsLoading(true)
     const response = await activeCategory({ id })
 
     if (response.error) {
       toast.error(response.error)
+      setIsLoading(false)
       return
     }
 
     await queryClient.invalidateQueries({ queryKey: ['categories'] })
 
-    setIsDialogOpen(false)
-
     toast.success(response.message)
+    setIsDialogOpen(false)
+    setIsLoading(false)
   }
 
   return (
@@ -99,21 +106,41 @@ export function InactiveCategory({ category }: InactiveCategoryProps) {
               type="button"
               variant="destructive"
               size="sm"
+              disabled={isLoading}
               className="rounded-sm md:w-[50%]"
               onClick={() => handleInactiveCategory(category.id)}
             >
-              <Power className="size-4" />
-              Desativar
+              {isLoading ? (
+                <>
+                  <ImSpinner2 className="animate-spin" />
+                  Desativando...
+                </>
+              ) : (
+                <>
+                  <Power className="size-4" />
+                  Desativar
+                </>
+              )}
             </Button>
           ) : (
             <Button
               type="button"
               size="sm"
+              disabled={isLoading}
               className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
               onClick={() => handleActiveCategory(category.id)}
             >
-              <Power className="size-4" />
-              Ativar
+              {isLoading ? (
+                <>
+                  <ImSpinner2 className="animate-spin" />
+                  Ativando...
+                </>
+              ) : (
+                <>
+                  <Power className="size-4" />
+                  Ativar
+                </>
+              )}
             </Button>
           )}
         </DialogFooter>

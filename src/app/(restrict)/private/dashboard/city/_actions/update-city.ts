@@ -72,6 +72,7 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     })
 
     revalidatePath('/private/dashboard/city')
+    revalidatePath('/')
 
     return {
       status: 200,

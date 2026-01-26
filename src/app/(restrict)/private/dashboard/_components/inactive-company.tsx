@@ -3,6 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Power } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,38 +27,46 @@ type InactiveCompanyProps = {
 }
 
 export function InactiveCompany({ company }: InactiveCompanyProps) {
+  const [isLoading, setIsLoading] = useState(false)
+
   const queryClient = useQueryClient()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   async function handleInactiveCompany(id: string) {
+    setIsLoading(true)
+
     const response = await inactiveCompany({ id })
 
     if (response.error) {
       toast.error(response.error)
+      setIsLoading(false)
       return
     }
 
     await queryClient.invalidateQueries({ queryKey: ['companies'] })
 
-    setIsDialogOpen(false)
-
     toast.success(response.message)
+    setIsDialogOpen(false)
+    setIsLoading(false)
   }
 
   async function handleActiveCompany(id: string) {
+    setIsLoading(true)
+
     const response = await activeCompany({ id })
 
     if (response.error) {
       toast.error(response.error)
+      setIsLoading(false)
       return
     }
 
     await queryClient.invalidateQueries({ queryKey: ['companies'] })
 
-    setIsDialogOpen(false)
-
     toast.success(response.message)
+    setIsDialogOpen(false)
+    setIsLoading(false)
   }
 
   return (
@@ -98,22 +107,42 @@ export function InactiveCompany({ company }: InactiveCompanyProps) {
             <Button
               type="button"
               variant="destructive"
+              disabled={isLoading}
               size="sm"
               className="rounded-sm md:w-[50%]"
               onClick={() => handleInactiveCompany(company.id)}
             >
-              <Power className="size-4" />
-              Desativar
+              {isLoading ? (
+                <>
+                  <ImSpinner2 className="animate-spin" />
+                  Desativando...
+                </>
+              ) : (
+                <>
+                  <Power className="size-4" />
+                  Desativar
+                </>
+              )}
             </Button>
           ) : (
             <Button
               type="button"
+              disabled={isLoading}
               size="sm"
               className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
               onClick={() => handleActiveCompany(company.id)}
             >
-              <Power className="size-4" />
-              Ativar
+              {isLoading ? (
+                <>
+                  <ImSpinner2 className="animate-spin" />
+                  Ativando...
+                </>
+              ) : (
+                <>
+                  <Power className="size-4" />
+                  Ativar
+                </>
+              )}
             </Button>
           )}
         </DialogFooter>

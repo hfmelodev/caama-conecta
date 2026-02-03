@@ -59,6 +59,40 @@ export async function updateProfile({ id, name, slug, isThirst }: CityFormType) 
     }
   }
 
+  // 🔹 Verifica se já existe OUTRA cidade com mesmo nome ou slug
+  const duplicateCity = await prisma.city.findFirst({
+    where: {
+      OR: [{ name }, { slug }],
+      NOT: { id },
+    },
+    select: { id: true, name: true, slug: true },
+  })
+
+  if (duplicateCity) {
+    return {
+      status: 400,
+      error: 'Já existe outra cidade cadastrada com esse nome ou slug.',
+    }
+  }
+
+  // 🔹 REGRA DE NEGÓCIO: só pode existir UMA sede
+  if (isThirst) {
+    const existingHeadCity = await prisma.city.findFirst({
+      where: {
+        isThirst: true,
+        NOT: { id }, // permite salvar se a própria cidade já for sede
+      },
+      select: { id: true, name: true },
+    })
+
+    if (existingHeadCity) {
+      return {
+        status: 400,
+        error: 'Já existe uma cidade como Sede.',
+      }
+    }
+  }
+
   try {
     await prisma.city.update({
       where: {

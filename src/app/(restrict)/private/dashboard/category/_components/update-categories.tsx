@@ -3,6 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit2, Save } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -107,8 +108,8 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
                       <Input placeholder="Ex: sao-luis" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>
 
-                    {errors.name ? (
-                      <FormMessage className="text-destructive text-xs">{errors.name.message}</FormMessage>
+                    {errors.slug ? (
+                      <FormMessage className="text-destructive text-xs">{errors.slug.message}</FormMessage>
                     ) : (
                       <FormDescription className="text-muted-foreground text-xs">
                         Use apenas letras minúsculas e hífens.
@@ -121,12 +122,14 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
               <FormField
                 control={form.control}
                 name="icon"
-                render={({ field }) => (
+                render={({ field, formState: { errors } }) => (
                   <FormItem>
                     <FormLabel>Ícone (Opcional):</FormLabel>
                     <FormControl>
                       <Input {...field} className="rounded-sm" />
                     </FormControl>
+
+                    <FormMessage className="text-destructive text-xs">{errors.icon?.message}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -139,9 +142,18 @@ export function UpdateCategories({ categories }: UpdateCategoryProps) {
                 </Button>
               </DialogClose>
 
-              <Button type="submit" size="sm" className="rounded-sm md:w-[50%]">
-                <Save className="size-4" />
-                Salvar alterações
+              <Button type="submit" size="sm" disabled={form.formState.isSubmitting} className="rounded-sm md:w-[50%]">
+                {form.formState.isSubmitting ? (
+                  <>
+                    <ImSpinner2 className="animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="size-4" />
+                    Salvar alterações
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>

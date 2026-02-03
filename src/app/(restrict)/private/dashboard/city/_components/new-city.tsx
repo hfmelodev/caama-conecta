@@ -3,6 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Plus, Save } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -116,8 +117,17 @@ export function NewCity() {
 
             <SheetFooter>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                <Save className="size-4" />
-                Salvar
+                {form.formState.isSubmitting ? (
+                  <>
+                    <ImSpinner2 className="animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="size-4" />
+                    Salvar
+                  </>
+                )}
               </Button>
             </SheetFooter>
           </form>

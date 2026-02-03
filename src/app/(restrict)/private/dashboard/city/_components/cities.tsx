@@ -9,9 +9,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { API } from '@/lib/axios'
 import { CitiesSkeleton } from './cities-skeleton'
 import { FilterCities } from './filter-cities'
-import { InactiveCity } from './inactive-city'
 import { NewCity } from './new-city'
 import { PaginationCities } from './pagination-cities'
+import { ToggleCity } from './toggle-city'
 import { UpdateCities } from './update-cities'
 
 interface CityProps {
@@ -148,7 +148,7 @@ export function CitiesContent() {
                           <UpdateCities cities={city} />
 
                           {/* Componente de inativar e ativar Cidade */}
-                          <InactiveCity city={city} />
+                          <ToggleCity city={city} />
                         </div>
                       </TableCell>
                     </TableRow>

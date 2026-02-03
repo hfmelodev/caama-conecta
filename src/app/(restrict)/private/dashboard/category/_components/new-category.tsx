@@ -3,6 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Plus, Save } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -87,8 +88,8 @@ export function NewCategory() {
                       <Input placeholder="Ex: alimentacao" {...field} className="rounded-sm placeholder:text-xs" />
                     </FormControl>
 
-                    {errors.name ? (
-                      <FormMessage className="text-destructive text-xs">{errors.name.message}</FormMessage>
+                    {errors.slug ? (
+                      <FormMessage className="text-destructive text-xs">{errors.slug.message}</FormMessage>
                     ) : (
                       <FormDescription className="text-muted-foreground text-xs">
                         Use apenas letras minúsculas e hífens.
@@ -116,8 +117,17 @@ export function NewCategory() {
 
             <SheetFooter>
               <Button type="submit" disabled={form.formState.isSubmitting}>
-                <Save className="size-4" />
-                Salvar
+                {form.formState.isSubmitting ? (
+                  <>
+                    <ImSpinner2 className="animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="size-4" />
+                    Salvar
+                  </>
+                )}
               </Button>
             </SheetFooter>
           </form>

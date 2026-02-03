@@ -57,6 +57,19 @@ export async function createCity({ name, slug, isThirst }: NewCityFormType) {
     }
   }
 
+  const cityAsThirst = await prisma.city.findFirst({
+    where: {
+      isThirst: true,
+    },
+  })
+
+  if (cityAsThirst) {
+    return {
+      status: 400,
+      error: 'Já existe uma cidade como Sede.',
+    }
+  }
+
   try {
     await prisma.city.create({
       data: {

@@ -11,8 +11,8 @@ import { API } from '@/lib/axios'
 import { PaginationCities } from '../../city/_components/pagination-cities'
 import { CategoriesSkeleton } from './categories-skeleton'
 import { FilterCategories } from './filter-categories'
-import { InactiveCategory } from './inactive-category'
 import { NewCategory } from './new-category'
+import { ToggleCategory } from './toggle-category'
 import { UpdateCategories } from './update-categories'
 
 interface CategoryProps {
@@ -142,7 +142,7 @@ export function CategoriesContent() {
                           <UpdateCategories categories={category} />
 
                           {/* Componente de inativar e ativar Cidade */}
-                          <InactiveCategory category={category} />
+                          <ToggleCategory category={category} />
                         </div>
                       </TableCell>
                     </TableRow>

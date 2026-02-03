@@ -1,6 +1,6 @@
 'use client'
 
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Power } from 'lucide-react'
 import { useState } from 'react'
 import { ImSpinner2 } from 'react-icons/im'
@@ -19,53 +19,33 @@ import {
 import { activeCategory } from '../_actions/active-category'
 import { inactiveCategory } from '../_actions/inactive-category'
 
-type InactiveCategoryProps = {
+type ToggleCategoryProps = {
   category: {
     id: string
     active: boolean
   }
 }
 
-export function InactiveCategory({ category }: InactiveCategoryProps) {
-  const [isLoading, setIsLoading] = useState(false)
-
+export function ToggleCategory({ category }: ToggleCategoryProps) {
   const queryClient = useQueryClient()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  async function handleInactiveCategory(id: string) {
-    setIsLoading(true)
-    const response = await inactiveCategory({ id })
+  const toggleCategoryMutation = useMutation({
+    mutationFn: async ({ category }: ToggleCategoryProps) => {
+      return category.active ? inactiveCategory({ id: category.id }) : activeCategory({ id: category.id })
+    },
+    onSuccess: async response => {
+      if (response.error) {
+        toast.error(response.error)
+        return
+      }
 
-    if (response.error) {
-      toast.error(response.error)
-      setIsLoading(false)
-      return
-    }
-
-    await queryClient.invalidateQueries({ queryKey: ['categories'] })
-
-    toast.success(response.message)
-    setIsDialogOpen(false)
-    setIsLoading(false)
-  }
-
-  async function handleActiveCategory(id: string) {
-    setIsLoading(true)
-    const response = await activeCategory({ id })
-
-    if (response.error) {
-      toast.error(response.error)
-      setIsLoading(false)
-      return
-    }
-
-    await queryClient.invalidateQueries({ queryKey: ['categories'] })
-
-    toast.success(response.message)
-    setIsDialogOpen(false)
-    setIsLoading(false)
-  }
+      await queryClient.invalidateQueries({ queryKey: ['categories'] })
+      toast.success(response.message)
+      setIsDialogOpen(false)
+    },
+  })
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -106,11 +86,11 @@ export function InactiveCategory({ category }: InactiveCategoryProps) {
               type="button"
               variant="destructive"
               size="sm"
-              disabled={isLoading}
+              disabled={toggleCategoryMutation.isPending}
               className="rounded-sm md:w-[50%]"
-              onClick={() => handleInactiveCategory(category.id)}
+              onClick={() => toggleCategoryMutation.mutateAsync({ category })}
             >
-              {isLoading ? (
+              {toggleCategoryMutation.isPending ? (
                 <>
                   <ImSpinner2 className="animate-spin" />
                   Desativando...
@@ -125,12 +105,13 @@ export function InactiveCategory({ category }: InactiveCategoryProps) {
           ) : (
             <Button
               type="button"
+              variant="whatsapp"
               size="sm"
-              disabled={isLoading}
-              className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
-              onClick={() => handleActiveCategory(category.id)}
+              disabled={toggleCategoryMutation.isPending}
+              className="rounded-sm md:w-[50%]"
+              onClick={() => toggleCategoryMutation.mutateAsync({ category })}
             >
-              {isLoading ? (
+              {toggleCategoryMutation.isPending ? (
                 <>
                   <ImSpinner2 className="animate-spin" />
                   Ativando...

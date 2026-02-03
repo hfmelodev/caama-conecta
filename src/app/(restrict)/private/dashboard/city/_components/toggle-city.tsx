@@ -1,8 +1,9 @@
 'use client'
 
-import { useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Power } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,40 +26,26 @@ type InactiveCityProps = {
   }
 }
 
-export function InactiveCity({ city }: InactiveCityProps) {
+export function ToggleCity({ city }: InactiveCityProps) {
   const queryClient = useQueryClient()
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  async function handleInactiveCity(id: string) {
-    const response = await inactiveCity({ id })
+  const toggleCityMutation = useMutation({
+    mutationFn: async ({ city }: InactiveCityProps) => {
+      return city.active ? inactiveCity({ id: city.id }) : activeCity({ id: city.id })
+    },
+    onSuccess: async response => {
+      if (response.error) {
+        toast.error(response.error)
+        return
+      }
 
-    if (response.error) {
-      toast.error(response.error)
-      return
-    }
-
-    await queryClient.invalidateQueries({ queryKey: ['cities'] })
-
-    setIsDialogOpen(false)
-
-    toast.success(response.message)
-  }
-
-  async function handleActiveCity(id: string) {
-    const response = await activeCity({ id })
-
-    if (response.error) {
-      toast.error(response.error)
-      return
-    }
-
-    await queryClient.invalidateQueries({ queryKey: ['cities'] })
-
-    setIsDialogOpen(false)
-
-    toast.success(response.message)
-  }
+      await queryClient.invalidateQueries({ queryKey: ['cities'] })
+      toast.success(response.message)
+      setIsDialogOpen(false)
+    },
+  })
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -100,20 +87,40 @@ export function InactiveCity({ city }: InactiveCityProps) {
               variant="destructive"
               size="sm"
               className="rounded-sm md:w-[50%]"
-              onClick={() => handleInactiveCity(city.id)}
+              onClick={() => toggleCityMutation.mutateAsync({ city })}
             >
-              <Power className="size-4" />
-              Desativar
+              {toggleCityMutation.isPending ? (
+                <>
+                  <ImSpinner2 className="animate-spin" />
+                  Desativando...
+                </>
+              ) : (
+                <>
+                  <Power className="size-4" />
+                  Desativar
+                </>
+              )}
             </Button>
           ) : (
             <Button
               type="button"
+              variant="whatsapp"
               size="sm"
-              className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
-              onClick={() => handleActiveCity(city.id)}
+              disabled={toggleCityMutation.isPending}
+              className="rounded-sm md:w-[50%]"
+              onClick={() => toggleCityMutation.mutateAsync({ city })}
             >
-              <Power className="size-4" />
-              Ativar
+              {toggleCityMutation.isPending ? (
+                <>
+                  <ImSpinner2 className="animate-spin" />
+                  Ativando...
+                </>
+              ) : (
+                <>
+                  <Power className="size-4" />
+                  Ativar
+                </>
+              )}
             </Button>
           )}
         </DialogFooter>

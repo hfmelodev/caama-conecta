@@ -3,6 +3,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { Edit2, Save } from 'lucide-react'
 import { useState } from 'react'
+import { ImSpinner2 } from 'react-icons/im'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -141,9 +142,18 @@ export function UpdateCities({ cities }: UpdateCityProps) {
                 </Button>
               </DialogClose>
 
-              <Button type="submit" size="sm" className="rounded-sm md:w-[50%]">
-                <Save className="size-4" />
-                Salvar alterações
+              <Button type="submit" disabled={form.formState.isSubmitting} size="sm" className="rounded-sm md:w-[50%]">
+                {form.formState.isSubmitting ? (
+                  <>
+                    <ImSpinner2 className="animate-spin" />
+                    Salvando...
+                  </>
+                ) : (
+                  <>
+                    <Save className="size-4" />
+                    Salvar alterações
+                  </>
+                )}
               </Button>
             </DialogFooter>
           </form>

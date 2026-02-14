@@ -124,6 +124,7 @@ model Category {
 model Company {
   id            String  @id @default(cuid())
   name          String
+  cnpj          String  @unique
   slug          String  @unique
   description   String  @db.Text
   logoUrl       String? @map("logo_url")
@@ -145,10 +146,12 @@ model Company {
   benefits String @db.Text // Descrição detalhada dos benefícios
 
   // Controle
-  active    Boolean  @default(true)
-  featured  Boolean  @default(false) // Empresas em destaque
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  contractStart DateTime? @map("contract_start")
+  contractEnd   DateTime? @map("contract_end")
+  active        Boolean   @default(true)
+  featured      Boolean   @default(false) // Empresas em destaque
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
   // Visitantes
   visitors Int @default(0)

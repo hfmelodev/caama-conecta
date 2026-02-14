@@ -95,14 +95,14 @@ export function AvatarCompany({ logoUrl, setLogoUrl, publicImageId, setPublicIma
   return (
     <div className="mx-auto max-w-md px-8">
       {logoUrl ? (
-        <div className="relative h-48 w-96 overflow-hidden rounded-xl border border-border">
+        <div className="relative h-48 w-96 overflow-hidden rounded-xl border border-border sm:w-125">
           <Image
             src={logoUrl}
             alt="Preview da Imagem"
             fill
             priority
             quality={100}
-            className="w-full rounded-xl"
+            className="w-full rounded-xl object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
 

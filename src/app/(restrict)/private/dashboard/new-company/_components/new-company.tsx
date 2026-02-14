@@ -1,7 +1,7 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Building2, Hash, LocateFixed, Mail, MapPin, Save } from 'lucide-react'
+import { Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save } from 'lucide-react'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 import { ImSpinner2 } from 'react-icons/im'
@@ -10,12 +10,14 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
+import { DatePicker } from '@/components/ui/datapicker'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { Category, City } from '@/generated/prisma/client'
 import { formatCep } from '@/utils/format-cep'
+import { formatCNPJ } from '@/utils/format-cnpj'
 import { formatPhone } from '@/utils/format-phone'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
 import { onlyNumbers } from '@/utils/only-numbers'
@@ -36,6 +38,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
   const form = useNewCompanyForm({
     name: '',
     slug: '',
+    cnpj: '',
     description: '',
     logoUrl,
     publicImageId,
@@ -47,6 +50,9 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
     neighborhood: '',
     zipCode: '',
     discount: '',
+    contractStart: undefined,
+    contractEnd: undefined,
+    featured: false,
     benefits: '',
     cityId: '',
     categoryId: '',
@@ -114,6 +120,35 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                               placeholder="Clínica Vida Plena"
                               {...field}
                               className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                            />
+                          </div>
+                        </FormControl>
+
+                        <FormMessage className="text-destructive text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="cnpj"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          CNPJ <span className="mt-0.5 text-destructive">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <FileText className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="00.000.000/0000-00"
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                              {...field}
+                              value={formatCNPJ(field.value ?? '')}
+                              onChange={e => {
+                                const rawValue = onlyNumbers(e.target.value)
+                                field.onChange(rawValue)
+                              }}
                             />
                           </div>
                         </FormControl>
@@ -430,6 +465,49 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                                 field.onChange(rawValue)
                               }}
                             />
+                          </div>
+                        </FormControl>
+
+                        <FormMessage className="text-destructive text-xs" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Data de contrato */}
+              <div className="space-y-4 border-border border-t pt-8">
+                <h2 className="font-bold text-foreground text-lg">Informações do Contrato</h2>
+
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="contractStart"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Data de início do contrato</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <CalendarClock className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <DatePicker date={field.value as Date} setDate={field.onChange} label="start" className="pl-9" />
+                          </div>
+                        </FormControl>
+
+                        <FormMessage className="text-destructive text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="contractEnd"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Data de término do contrato</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <CalendarClock className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <DatePicker date={field.value as Date} setDate={field.onChange} label="end" className="pl-9" />
                           </div>
                         </FormControl>
 

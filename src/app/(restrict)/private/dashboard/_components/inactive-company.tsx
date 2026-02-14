@@ -128,8 +128,9 @@ export function InactiveCompany({ company }: InactiveCompanyProps) {
             <Button
               type="button"
               disabled={isLoading}
+              variant="whatsapp"
               size="sm"
-              className="rounded-sm bg-emerald-600 hover:bg-emerald-500 md:w-[50%]"
+              className="rounded-sm md:w-[50%]"
               onClick={() => handleActiveCompany(company.id)}
             >
               {isLoading ? (

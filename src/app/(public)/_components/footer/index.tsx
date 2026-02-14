@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="bg-primary-foreground py-12">
       <div className="container mx-auto space-y-8 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <Image src="/assets/logo-caama-2025.png" alt="Logo" width={190} height={50} quality={100} priority />
+          <Image src="/assets/logo-caama.png" alt="Logo" width={220} height={50} quality={100} priority />
 
           <div className="grid grid-cols-4 gap-2 sm:grid-cols-4">
             <SocialTooltip label="Instagram" link="https://www.instagram.com/caama.oabma/?utm_medium=copy_link">

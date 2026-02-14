@@ -56,17 +56,17 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
       {/* Content Image */}
       <main className="pt-16">
         <section className="relative">
-          <div className="relative aspect-21/9 w-full overflow-hidden bg-muted sm:aspect-8/1 lg:aspect-9/1">
+          <div className="relative aspect-19/9 w-full overflow-hidden bg-muted sm:aspect-8/1 lg:aspect-9/1">
             <Squares />
             {/* <Image src="/assets/acordo.png" alt={`Imagem de ${company.name}`} fill className="object-cover" /> */}
             <div className="absolute inset-0 bg-linear-to-t from-background via-background/20 to-transparent" />
           </div>
 
           <div className="relative mx-auto max-w-6xl px-4">
-            <div className="-mt-16 sm:-mt-20">
+            <div className="-mt-28 sm:-mt-24">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
                 {/* Logo Company */}
-                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-card shadow-xl sm:h-36 sm:w-36">
+                <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-card shadow-xl sm:h-48 sm:w-58">
                   {company.logoUrl ? (
                     <Image src={company.logoUrl} alt={`Logo de ${company.name}`} fill className="object-cover" sizes="144px" />
                   ) : (
@@ -77,7 +77,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 </div>
 
                 {/* Company Information */}
-                <div className="flex-1 md:pb-2">
+                <div className="flex-1 md:pb-10">
                   <div className="flex flex-wrap items-center gap-2 pb-2">
                     <h1 className="font-bold text-2xl text-foreground tracking-tight sm:text-3xl lg:text-4xl">{company.name}</h1>
                   </div>

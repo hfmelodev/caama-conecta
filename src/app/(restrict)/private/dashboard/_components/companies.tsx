@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { API } from '@/lib/axios'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
+import { getContractStatus, getRemainingTime } from '@/utils/get-contract-duration'
 import { CompaniesTableSkeleton } from './companies-skeleton'
 import { FilterCompanies } from './filter-company'
 import { InactiveCompany } from './inactive-company'
@@ -28,6 +29,8 @@ interface CompanyProps {
     whatsapp: string
     active: boolean
     featured: boolean
+    contractStart: string
+    contractEnd: string
   }[]
   total: number
 }
@@ -99,6 +102,7 @@ export function Companies() {
                     Categoria
                   </TableHead>
                   <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">WhatsApp</TableHead>
+                  <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">Contrato</TableHead>
                   <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">Status</TableHead>
                   <TableHead className="text-center">Ações</TableHead>
                 </TableRow>
@@ -108,82 +112,94 @@ export function Companies() {
                 {isLoading && <CompaniesTableSkeleton />}
 
                 {data &&
-                  data.companies.map(company => (
-                    <TableRow key={company.id} className="transition-colors duration-200 hover:bg-primary/5">
-                      {/* Company Info */}
-                      <TableCell className="px-6 py-4 font-medium">
-                        <div className="flex items-center gap-3">
-                          <div className="relative size-10 rounded-full border">
-                            <Image
-                              src={company.logoUrl || '/assets/company-sem-logo.png'}
-                              alt={company.name || 'Empresa'}
-                              fill
-                              className="rounded-full object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-medium text-foreground">{company.name || 'Empresa'}</span>
-                              {company.featured && <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />}
+                  data.companies.map(company => {
+                    const { status } = getContractStatus(company.contractEnd)
+                    const remaining = getRemainingTime(company.contractEnd)
+
+                    return (
+                      <TableRow key={company.id} className="transition-colors duration-200 hover:bg-primary/5">
+                        {/* Company Info */}
+                        <TableCell className="px-6 py-4 font-medium">
+                          <div className="flex items-center gap-3">
+                            <div className="relative size-10 rounded-full border">
+                              <Image
+                                src={company.logoUrl || '/assets/company-sem-logo.png'}
+                                alt={company.name || 'Empresa'}
+                                fill
+                                className="rounded-full object-cover"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              />
                             </div>
-                            <span className="text-muted-foreground text-xs">{company.email}</span>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-foreground">{company.name || 'Empresa'}</span>
+                                {company.featured && <Star className="h-3 w-3 fill-yellow-500 text-yellow-500" />}
+                              </div>
+                              <span className="text-muted-foreground text-xs">{company.email}</span>
+                            </div>
                           </div>
-                        </div>
-                      </TableCell>
+                        </TableCell>
 
-                      {/* City */}
-                      <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
-                        <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
-                          <MapPin className="size-3.5" />
-                          <span>{company.city.name}</span>
-                        </div>
-                      </TableCell>
+                        {/* City */}
+                        <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
+                          <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
+                            <MapPin className="size-3.5" />
+                            <span>{company.city.name}</span>
+                          </div>
+                        </TableCell>
 
-                      {/* Category */}
-                      <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
-                        <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-1 font-medium text-xs text-yellow-800">
-                          {company.category.icon && <span className="mr-1.5">{company.category.icon}</span>}
-                          {company.category.name}
-                        </span>
-                      </TableCell>
+                        {/* Category */}
+                        <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
+                          <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-1 font-medium text-xs text-yellow-800">
+                            {company.category.icon && <span className="mr-1.5">{company.category.icon}</span>}
+                            {company.category.name}
+                          </span>
+                        </TableCell>
 
-                      {/* WhatsApp */}
-                      <TableCell className="px-6 py-4 text-muted-foreground">{formatWhatsapp(company.whatsapp)}</TableCell>
+                        {/* WhatsApp */}
+                        <TableCell className="px-6 py-4 text-muted-foreground">{formatWhatsapp(company.whatsapp)}</TableCell>
 
-                      {/* Status */}
-                      <TableCell className="px-6 py-4">
-                        <Badge
-                          className={
-                            company.active
-                              ? 'bg-green-500/10 text-emerald-600 dark:text-emerald-400'
-                              : 'bg-muted text-muted-foreground'
-                          }
-                        >
-                          {company.active ? 'Ativa' : 'Inativa'}
-                        </Badge>
-                      </TableCell>
+                        {/* Tempo de contrato */}
+                        <TableCell className="py-4 text-muted-foreground">
+                          <Badge variant={status} className={status === 'expired' ? 'animate-bounce' : ''}>
+                            {remaining}
+                          </Badge>
+                        </TableCell>
 
-                      {/* Actions */}
-                      <TableCell className="px-6 py-4">
-                        <div className="flex items-center justify-center gap-2">
-                          {/* Componente de edição */}
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            className="hover:bg-muted"
-                            onClick={() => router.push(`/private/dashboard/company/${company.slug}/update-company`)}
+                        {/* Status */}
+                        <TableCell className="px-6 py-4">
+                          <Badge
+                            className={
+                              company.active
+                                ? 'border-green-500 bg-green-500/10 text-emerald-600 dark:text-emerald-400'
+                                : 'border border-muted bg-muted text-muted-foreground'
+                            }
                           >
-                            <Edit2 className="size-4" />
-                            <span className="sr-only">Editar</span>
-                          </Button>
+                            {company.active ? 'Ativa' : 'Inativa'}
+                          </Badge>
+                        </TableCell>
 
-                          {/* Componente de inativação */}
-                          <InactiveCompany company={company} />
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        {/* Actions */}
+                        <TableCell className="px-6 py-4">
+                          <div className="flex items-center justify-center gap-2">
+                            {/* Componente de edição */}
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="hover:bg-muted"
+                              onClick={() => router.push(`/private/dashboard/company/${company.slug}/update-company`)}
+                            >
+                              <Edit2 className="size-4" />
+                              <span className="sr-only">Editar</span>
+                            </Button>
+
+                            {/* Componente de inativação */}
+                            <InactiveCompany company={company} />
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
               </TableBody>
             </Table>
           </div>

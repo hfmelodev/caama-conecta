@@ -16,7 +16,7 @@ export function PaginationCities({ page, totalCount, onPageChange }: PaginationC
 
   return (
     <div className="flex items-center justify-between">
-      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de cidades: {totalCount}</span>
+      <span className="font-medium text-muted-foreground text-xs md:text-sm">Total de categorias: {totalCount}</span>
 
       <span className="font-medium text-muted-foreground text-xs md:text-sm">
         Página {page} de {pages}

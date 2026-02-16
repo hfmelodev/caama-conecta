@@ -30,7 +30,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
     slug: slug_company,
   })
 
-  if (!company) {
+  if (!company || !company.active) {
     notFound()
   }
 

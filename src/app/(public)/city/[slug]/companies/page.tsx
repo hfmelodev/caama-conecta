@@ -23,7 +23,7 @@ export default async function CompaniesByCity({ params, searchParams }: Companie
 
   const city = await getCityBySlug({ slug })
 
-  if (!city) {
+  if (!city || !city.active) {
     notFound()
   }
 

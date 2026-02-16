@@ -29,6 +29,8 @@ export async function GET(request: NextRequest) {
           name: true,
           email: true,
           logoUrl: true,
+          contractStart: true,
+          contractEnd: true,
           slug: true,
           city: {
             select: {

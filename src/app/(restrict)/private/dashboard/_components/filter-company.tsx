@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -8,6 +9,8 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { API } from '@/lib/axios'
 
 const filterCompanySchema = z.object({
   name: z.string().trim().optional(),
@@ -15,6 +18,13 @@ const filterCompanySchema = z.object({
 })
 
 type FilterCompaniesType = z.infer<typeof filterCompanySchema>
+
+interface CityProps {
+  cities: {
+    id: string
+    name: string
+  }[]
+}
 
 export function FilterCompanies() {
   const searchParams = useSearchParams()
@@ -53,6 +63,20 @@ export function FilterCompanies() {
     form.reset()
   }
 
+  const { data } = useQuery({
+    queryKey: ['cities', name],
+    queryFn: async () => {
+      const response = await API.get<CityProps>('/api/cities/get-all-cities', {
+        params: {
+          name,
+        },
+      })
+
+      return response.data
+    },
+    staleTime: Number.POSITIVE_INFINITY, // Significa que o cache nunca vai expirar
+  })
+
   return (
     <Form {...form}>
       <form
@@ -79,9 +103,21 @@ export function FilterCompanies() {
             name="city"
             render={({ field }) => (
               <FormItem className="w-full sm:w-60">
-                <FormControl>
-                  <Input {...field} placeholder="Busque pela cidade" className="h-8 rounded-sm text-sm" />
-                </FormControl>
+                <Select onValueChange={field.onChange} value={field.value || ''}>
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Selecione uma cidade" />
+                    </SelectTrigger>
+                  </FormControl>
+
+                  <SelectContent>
+                    {data?.cities.map(city => (
+                      <SelectItem key={city.id} value={city.name}>
+                        {city.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
           />

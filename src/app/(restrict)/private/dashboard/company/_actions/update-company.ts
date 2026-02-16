@@ -26,6 +26,7 @@ const updateCompanyFormSchema = z
           message: 'CNPJ inválido',
         }
       ),
+    responsible: z.string().trim().optional(),
     slug: z
       .string()
       .trim()

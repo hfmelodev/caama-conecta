@@ -27,7 +27,7 @@ const newCompanyFormSchema = z
           message: 'CNPJ inválido',
         }
       ),
-
+    responsible: z.string().trim().optional(),
     slug: z
       .string()
       .trim()
@@ -102,8 +102,9 @@ export type NewCompanyFormType = z.input<typeof newCompanyFormSchema>
 
 type UseNewCompanyFormType = {
   name: string
-  slug: string
   cnpj: string
+  responsible?: string
+  slug: string
   description: string
   logoUrl?: string
   publicImageId?: string
@@ -125,8 +126,9 @@ type UseNewCompanyFormType = {
 
 export function useNewCompanyForm({
   name,
-  slug,
   cnpj,
+  responsible,
+  slug,
   description,
   logoUrl,
   publicImageId,
@@ -150,8 +152,9 @@ export function useNewCompanyForm({
     resolver: zodResolver(newCompanyFormSchema),
     defaultValues: {
       name: name || '',
-      slug: slug || '',
       cnpj: cnpj || '',
+      responsible: responsible || '',
+      slug: slug || '',
       description: description || '',
       logoUrl: logoUrl || '',
       publicImageId: publicImageId || '',

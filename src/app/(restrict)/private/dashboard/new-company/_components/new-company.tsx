@@ -1,7 +1,8 @@
 'use client'
 
 import { useQueryClient } from '@tanstack/react-query'
-import { Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save } from 'lucide-react'
+import { Building2, CalendarClock, FileText, Hash, LocateFixed, Mail, MapPin, Save, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 import { ImSpinner2 } from 'react-icons/im'
@@ -31,14 +32,16 @@ interface NewCompanyProps {
 }
 
 export function NewCompany({ cities, categories }: NewCompanyProps) {
+  const router = useRouter()
   const queryClient = useQueryClient()
   const [logoUrl, setLogoUrl] = useState<string | undefined>(undefined)
   const [publicImageId, setPublicImageId] = useState<string | undefined>(undefined)
 
   const form = useNewCompanyForm({
     name: '',
-    slug: '',
     cnpj: '',
+    responsible: '',
+    slug: '',
     description: '',
     logoUrl,
     publicImageId,
@@ -77,6 +80,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
     setLogoUrl(undefined)
     setPublicImageId(undefined)
     form.reset()
+    router.push('/private/dashboard')
   }
 
   return (
@@ -149,6 +153,28 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                                 const rawValue = onlyNumbers(e.target.value)
                                 field.onChange(rawValue)
                               }}
+                            />
+                          </div>
+                        </FormControl>
+
+                        <FormMessage className="text-destructive text-xs" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="responsible"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Responsável</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <User className="-translate-y-1/2 pointer-events-none absolute top-1/2 left-3 size-4 text-muted-foreground" />
+                            <Input
+                              placeholder="Nome do responsável"
+                              className="rounded-sm pl-9 placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
+                              {...field}
                             />
                           </div>
                         </FormControl>

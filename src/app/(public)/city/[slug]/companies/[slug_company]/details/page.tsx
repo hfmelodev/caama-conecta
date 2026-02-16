@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FaInstagram } from 'react-icons/fa'
+import { CompanyMaps } from '@/app/(public)/_components/company-maps'
 import { Shared } from '@/app/(public)/_components/header/shared'
 import { Squares } from '@/app/(public)/_components/hero/squares'
 import { WhatsappCompany } from '@/app/(public)/_components/whatsapp-company'
@@ -66,7 +67,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
             <div className="-mt-28 sm:-mt-24">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-6">
                 {/* Logo Company */}
-                <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-card shadow-xl sm:h-48 sm:w-58">
+                <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-card shadow-xl sm:h-48 sm:w-78">
                   {company.logoUrl ? (
                     <Image src={company.logoUrl} alt={`Logo de ${company.name}`} fill className="object-cover" sizes="144px" />
                   ) : (
@@ -144,15 +145,24 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 <div>
                   <h2 className="flex items-center gap-2 font-semibold text-foreground text-lg">📍 Localização</h2>
 
-                  <div className="mt-3 flex items-center gap-3 rounded-lg border bg-card p-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                      <Navigation className="h-5 w-5" />
+                  <div className="mt-3 rounded-lg border bg-card p-4">
+                    {/* Conteúdo */}
+                    <div className="flex items-start gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                        <Navigation className="h-5 w-5" />
+                      </div>
+
+                      <div className="flex-1">
+                        <p className="text-foreground text-sm">{company.address}</p>
+                        <p className="text-muted-foreground text-sm">{company.neighborhood}</p>
+                        <p className="text-muted-foreground text-sm">CEP: {formatCep(company.zipCode)}</p>
+                        <p className="mt-1 font-medium text-primary/70 text-sm">{company.city.name} - MA</p>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-foreground text-sm">{company.address}</p>
-                      <p className="text-muted-foreground text-sm">{company.neighborhood}</p>
-                      <p className="text-muted-foreground text-sm">Cep: {formatCep(company.zipCode)}</p>
-                      <p className="mt-1 font-medium text-primary/70 text-sm">{company.city.name} - MA</p>
+
+                    {/* Botões */}
+                    <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:justify-end">
+                      <CompanyMaps company={company} />
                     </div>
                   </div>
                 </div>

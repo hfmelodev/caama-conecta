@@ -28,6 +28,7 @@ const updateCompanyFormSchema = z
           message: 'CNPJ inválido',
         }
       ),
+    responsible: z.string().trim().optional(),
     slug: z
       .string()
       .trim()
@@ -103,9 +104,10 @@ export type UpdateCompanyFormType = z.infer<typeof updateCompanyFormSchema>
 export function useUpdateCompanyForm({
   id,
   name,
+  cnpj,
+  responsible,
   slug,
   description,
-  cnpj,
   logoUrl,
   publicImageId,
   phone,
@@ -129,6 +131,7 @@ export function useUpdateCompanyForm({
       id: id || '',
       name: name || '',
       cnpj: cnpj || '',
+      responsible: responsible || '',
       slug: slug || '',
       description: description || '',
       logoUrl: logoUrl || '',

@@ -124,6 +124,7 @@ model Category {
 model Company {
   id            String  @id @default(cuid())
   name          String
+  responsible   String?
   cnpj          String  @unique
   slug          String  @unique
   description   String  @db.Text

@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'supabase.hit.dev.br',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.hit.dev.br',
+      },
     ],
     qualities: [50, 75, 100],
   },

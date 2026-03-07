@@ -62,6 +62,11 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
   })
 
   async function handleNewCompany(data: NewCompanyFormType) {
+    if (!logoUrl || !publicImageId) {
+      toast.error('Adicione uma imagem da empresa antes de criar')
+      return
+    }
+
     const response = await createCompany({
       ...data,
       logoUrl,

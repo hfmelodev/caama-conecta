@@ -47,8 +47,8 @@ export function Hero() {
           <Image
             src="/assets/hero.svg"
             alt="Foto de conexão entre advogados e empresas"
-            width={450}
-            height={450}
+            width={430}
+            height={430}
             className="object-contain"
             quality={100}
             priority

@@ -102,7 +102,7 @@ export function Companies() {
                     Categoria
                   </TableHead>
                   <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">WhatsApp</TableHead>
-                  <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">Contrato</TableHead>
+                  <TableHead className="px-6 py-4 text-center font-semibold text-foreground text-sm">Contrato</TableHead>
                   <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">Status</TableHead>
                   <TableHead className="text-center">Ações</TableHead>
                 </TableRow>
@@ -160,10 +160,12 @@ export function Companies() {
                         <TableCell className="px-6 py-4 text-muted-foreground">{formatWhatsapp(company.whatsapp)}</TableCell>
 
                         {/* Tempo de contrato */}
-                        <TableCell className="py-4 text-muted-foreground">
-                          <Badge variant={status} className={status === 'expired' ? 'animate-bounce' : ''}>
-                            {remaining}
-                          </Badge>
+                        <TableCell className="py-4 text-center text-muted-foreground">
+                          {company.contractStart === null || company.contractEnd === null ? (
+                            <Badge variant="outline">Sem expiração</Badge>
+                          ) : (
+                            <Badge variant={status}>{remaining}</Badge>
+                          )}
                         </TableCell>
 
                         {/* Status */}

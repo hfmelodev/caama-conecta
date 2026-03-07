@@ -81,7 +81,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               <SidebarLink
                 href="/private/dashboard"
                 icon={<Building2 className="size-4" />}
-                label="Emoresas"
+                label="Empresas"
                 pathname={pathname}
                 isCollapsed={isCollapsed}
                 setIsSheetOpen={setIsSheetOpen}

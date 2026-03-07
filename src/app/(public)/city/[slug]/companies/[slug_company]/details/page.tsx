@@ -69,7 +69,7 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 {/* Logo Company */}
                 <div className="relative h-48 w-full shrink-0 overflow-hidden rounded-2xl border-4 border-background bg-card shadow-xl sm:h-48 sm:w-78">
                   {company.logoUrl ? (
-                    <Image src={company.logoUrl} alt={`Logo de ${company.name}`} fill className="object-cover" sizes="144px" />
+                    <Image src={company.logoUrl} alt={`Logo de ${company.name}`} fill className="object-contain" sizes="144px" />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-muted to-muted/50">
                       <Building2 className="h-10 w-10 text-muted-foreground/40 sm:h-14 sm:w-14" />

@@ -14,6 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { DatePicker } from '@/components/ui/datapicker'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import type { Category, City } from '@/generated/prisma/client'
@@ -586,11 +587,7 @@ export function NewCompany({ cities, categories }: NewCompanyProps) {
                         Descrição Detalhada dos Benefícios <span className="mt-0.5 text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Descreva todos os benefícios oferecidos aos advogados..."
-                          {...field}
-                          className="h-28 rounded-sm border-border placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
-                        />
+                        <RichTextEditor value={field.value} onChange={field.onChange} />
                       </FormControl>
 
                       <FormMessage className="text-destructive text-xs" />

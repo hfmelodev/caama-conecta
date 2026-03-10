@@ -22,7 +22,10 @@ const updateCategoryFormSchema = z.object({
     .nonempty(),
   icon: z
     .string()
-    .regex(/^$|^(\p{Emoji}(?:\u200D\p{Emoji})*)$/u, 'O ícone deve ser apenas um emoji')
+    .regex(
+      /^$|^(\p{Emoji_Presentation}|\p{Extended_Pictographic}|\p{Emoji}\uFE0F)(?:\u200D(\p{Emoji_Presentation}|\p{Extended_Pictographic}|\p{Emoji}\uFE0F))*$/u,
+      'O ícone deve ser apenas um emoji'
+    )
     .optional(),
 })
 

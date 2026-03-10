@@ -134,8 +134,12 @@ export default async function CompanyDetailsPage({ params }: CompanyDetailsPageP
                 <div>
                   <h2 className="font-semibold text-foreground text-lg">Benefícios</h2>
                   <div className="mt-3 flex items-start gap-3 rounded-xl border bg-card/80 p-4">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
-                    <p className="text-pretty text-muted-foreground leading-relaxed">{company.benefits}</p>
+                    <CheckCircle2 className="mt-1 h-5 w-5 shrink-0 text-emerald-500" />
+                    <div
+                      className="prose prose-sm sm:prose-base max-w-none text-pretty prose-a:text-primary prose-headings:text-foreground prose-li:text-muted-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-p:leading-relaxed hover:prose-a:text-primary/80"
+                      // biome-ignore lint/security/noDangerouslySetInnerHtml: Content is generated via TipTap
+                      dangerouslySetInnerHTML={{ __html: company.benefits }}
+                    />
                   </div>
                 </div>
               )}

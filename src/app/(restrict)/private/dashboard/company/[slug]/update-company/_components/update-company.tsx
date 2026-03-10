@@ -22,6 +22,7 @@ import { formatCNPJ } from '@/utils/format-cnpj'
 import { formatPhone } from '@/utils/format-phone'
 import { formatWhatsapp } from '@/utils/format-whatsapp'
 import { onlyNumbers } from '@/utils/only-numbers'
+import { RichTextEditor } from '@/components/ui/rich-text-editor'
 import { updateCompany } from '../../../_actions/update-company'
 import { AvatarCompanyUpdate } from './avatar-company-update'
 // import { AvatarCompanyUpdate } from './avatar-company-update'
@@ -591,11 +592,7 @@ export function UpdateCompanyContent({ company, cities, categories }: UpdateComp
                         Descrição Detalhada dos Benefícios <span className="mt-0.5 text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Descreva todos os benefícios oferecidos aos advogados..."
-                          {...field}
-                          className="h-28 rounded-sm border-border placeholder:text-sm focus-visible:ring-1 focus-visible:ring-primary"
-                        />
+                        <RichTextEditor value={field.value} onChange={field.onChange} />
                       </FormControl>
 
                       <FormMessage className="text-destructive text-xs" />

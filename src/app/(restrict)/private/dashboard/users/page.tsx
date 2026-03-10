@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { UserContent } from './_components/users'
 
 export const metadata: Metadata = {
-  title: 'Usuários | Caama Conecta',
+  title: 'Usuários | Desconto Legal',
 }
 
 export default async function User() {

@@ -4,7 +4,7 @@ import { auth } from '@/lib/auth'
 import { CategoriesContent } from './_components/categories'
 
 export const metadata: Metadata = {
-  title: 'Categorias | Caama Conecta',
+  title: 'Categorias | Desconto Legal',
 }
 
 export default async function Categories() {

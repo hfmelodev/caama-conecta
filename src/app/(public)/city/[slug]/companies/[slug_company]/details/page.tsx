@@ -14,7 +14,7 @@ import { formatCep } from '@/utils/format-cep'
 import { formatPhone } from '@/utils/format-phone'
 
 export const metadata: Metadata = {
-  title: `Detalhes | Caama Conecta`,
+  title: `Detalhes | Desconto Legal`,
 }
 
 type CompanyDetailsPageProps = {

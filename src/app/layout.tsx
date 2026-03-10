@@ -6,13 +6,13 @@ import { ProgressProviderWrapper } from '@/components/app/progress-provider-wrap
 import SessionAuthProvider from '@/components/app/session-auth'
 
 export const metadata: Metadata = {
-  title: 'Caama Conecta',
+  title: 'Desconto Legal',
   description: 'Descontos e benefícios exclusivos para advogados associados à CAAMA.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Caama Conecta',
+    title: 'Desconto Legal',
   },
   icons: {
     icon: [

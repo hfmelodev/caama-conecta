@@ -4,7 +4,7 @@ import { CompaniesByCityContent } from '@/app/(public)/_components/companies-by-
 import { getCityBySlug } from '@/app/(public)/_dal/get-city-by-slug'
 
 export const metadata: Metadata = {
-  title: `Empresas | Caama Conecta`,
+  title: `Empresas | Desconto Legal`,
 }
 
 type CompaniesByCityPageProps = {

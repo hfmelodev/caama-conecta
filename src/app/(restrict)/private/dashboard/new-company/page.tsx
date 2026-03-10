@@ -6,7 +6,7 @@ import { getAllCategories } from './_dal/get-all-categories'
 import { getAllCities } from './_dal/get-all-cities'
 
 export const metadata: Metadata = {
-  title: 'Nova Empresa | Caama Conecta',
+  title: 'Nova Empresa | Desconto Legal',
 }
 
 export default async function Company() {

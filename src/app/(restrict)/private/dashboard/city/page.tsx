@@ -5,7 +5,7 @@ import { auth } from '@/lib/auth'
 import { CitiesContent } from './_components/cities'
 
 export const metadata: Metadata = {
-  title: 'Cidades | Caama Conecta',
+  title: 'Cidades | Desconto Legal',
 }
 
 export default async function City() {

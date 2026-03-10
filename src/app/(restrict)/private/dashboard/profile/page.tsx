@@ -5,7 +5,7 @@ import { ProfileContent } from './_components/profile'
 import { getProfile } from './_dal/get-profile'
 
 export const metadata: Metadata = {
-  title: 'Perfil | Caama Conecta',
+  title: 'Perfil | Desconto Legal',
 }
 
 export default async function Profile() {

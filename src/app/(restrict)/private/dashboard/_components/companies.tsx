@@ -95,13 +95,13 @@ export function Companies() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">Empresa</TableHead>
-                  <TableHead className="hidden px-6 py-4 text-left font-semibold text-foreground text-sm md:table-cell">
+                  <TableHead className="hidden px-6 py-4 text-center font-semibold text-foreground text-sm md:table-cell">
                     Cidade
                   </TableHead>
-                  <TableHead className="hidden px-6 py-4 text-left font-semibold text-foreground text-sm md:table-cell">
+                  <TableHead className="hidden px-6 py-4 text-center font-semibold text-foreground text-sm md:table-cell">
                     Categoria
                   </TableHead>
-                  <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">WhatsApp</TableHead>
+                  <TableHead className="px-6 py-4 text-center font-semibold text-foreground text-sm">WhatsApp</TableHead>
                   <TableHead className="px-6 py-4 text-center font-semibold text-foreground text-sm">Contrato</TableHead>
                   <TableHead className="px-6 py-4 text-left font-semibold text-foreground text-sm">Status</TableHead>
                   <TableHead className="text-center">Ações</TableHead>
@@ -141,15 +141,15 @@ export function Companies() {
                         </TableCell>
 
                         {/* City */}
-                        <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
-                          <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
+                        <TableCell className="hidden px-6 py-4 text-center text-foreground md:table-cell">
+                          <div className="flex items-center justify-center gap-1.5 text-muted-foreground text-sm">
                             <MapPin className="size-3.5" />
                             <span>{company.city.name}</span>
                           </div>
                         </TableCell>
 
                         {/* Category */}
-                        <TableCell className="hidden px-6 py-4 text-foreground md:table-cell">
+                        <TableCell className="hidden px-6 py-4 text-center text-foreground md:table-cell">
                           <span className="inline-flex items-center rounded-full bg-yellow-100 px-2.5 py-1 font-medium text-xs text-yellow-800">
                             {company.category.icon && <span className="mr-1.5">{company.category.icon}</span>}
                             {company.category.name}
@@ -157,7 +157,9 @@ export function Companies() {
                         </TableCell>
 
                         {/* WhatsApp */}
-                        <TableCell className="px-6 py-4 text-muted-foreground">{formatWhatsapp(company.whatsapp)}</TableCell>
+                        <TableCell className="px-6 py-4 text-center text-muted-foreground">
+                          {formatWhatsapp(company.whatsapp)}
+                        </TableCell>
 
                         {/* Tempo de contrato */}
                         <TableCell className="py-4 text-center text-muted-foreground">
